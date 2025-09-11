@@ -1,0 +1,97 @@
+﻿@page "/"
+@inject AppService AppService
+@inject IStringLocalizer<OnMuhasebeResource> L
+@inject ICurrentUser CurrentUser
+@inject FirmaParametreAppService FirmaParametreAppService
+
+
+<AuthorizeView>
+    <Authorized>
+        @if (_isShowFirmaParametre)
+        {
+            @*Kullanıcı ilk kez giriş işlemi yapıyorsa bu kısm çalışacak*@
+            <SubeDonemSecimEditPage />
+
+        }
+        else
+        {
+            @*Daha önce girdi ise ve tekrar giriş yapıyorsa bu kısım çalışacak *@
+            AppService.HasChanged();
+        }
+
+
+        <DevGridLayout ColumnCount="5"
+                       ColumnWidths="@ColumnWidths("*","10px","*","10px","*")"
+                       RowCount="2"
+                       RowHeights="@RowHeights("*","10px","*")">
+            <GridLayoutItems>
+             
+
+            </GridLayoutItems>
+
+        </DevGridLayout>
+        <DevGridLayout ColumnCount="5"  
+                       ColumnWidths="@ColumnWidths("*","5px","*","5px","*")"
+                       RowCount="5"
+                       RowHeights="@RowHeights("*","10px","*")">
+
+        
+        </DevGridLayout>
+    </Authorized>
+    
+    <NotAuthorized>
+           <div class="captionCssClass">
+      
+        <div class="text">
+            <a class="btn btn-success" href="/account/login">
+                <i class="fa fa-sign-in-alt pr-2"></i> @L["Login"]
+            </a>
+        </div>
+      
+
+
+        </div>
+      </NotAuthorized>
+      
+</AuthorizeView>
+
+@code {
+    private string CaptionCssClass { get; set; } = "captionCssClass";
+
+    private string selectedSlide = "2";
+    private bool _isShowFirmaParametre;
+
+
+}
+
+<style>
+    .captionCssClass{
+        background-color: #4D4D4D;
+        color:white;
+    }
+    .headerCssClass{
+        text-align: center;
+        color: white;
+        background-color: #4D4D4D;
+        font-weight: bold;
+        font-family: Roboto Condensed, Times New Roman, Times, red-serif;
+    }
+    .baseDetailFontCssClass{
+      
+        font-size: xx-large;
+    }
+    .divCssClass{
+        background-color:#e6ffcc;
+        font-weight:bold; 
+        font-family:Roboto Condensed, Times New Roman, Times, red-serif;
+    }
+    .custom-image {
+        width: 310px;
+        height: 170px;
+    }
+
+    .img1 {
+        clip-path: circle(50%);
+    }
+
+</style>

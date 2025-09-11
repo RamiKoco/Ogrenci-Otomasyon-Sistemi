@@ -1,0 +1,30 @@
+﻿@using Blazorise
+@inherits DevBaseEditor
+@typeparam TItem
+
+<DxGridLayoutItem Column="ColumnIndex"
+                  ColumnSpan="ColumnSpan"
+                  CssClass="@CssClass"
+                  Row="RowIndex"
+                  RowSpan="RowSpan"
+                  Visible="Visible">
+    <Template>
+        <Image Text="@Text" Display="Display.Block" Width="Width.Is25" />
+    </Template>
+</DxGridLayoutItem>
+<DxUpload @ref="_dxUpload"
+          @bind-Value="@Value">
+</DxUpload>
+
+
+@code {
+    private DxUpload _dxUpload;
+    [Parameter] public string Text { get; set; }
+    [Parameter, EditorRequired] public IEnumerable<TItem> DataSource { get; set; }
+    // [Parameter] public string TextFieldName { get; set; }
+    // [Parameter] public Action<TItem> SelectedItemChanged { get; set; }
+    [Parameter, EditorRequired] public TItem Value { get; set; }
+    // [Parameter] public EventCallback<TItem> ValueChanged { get; set; }
+
+
+}

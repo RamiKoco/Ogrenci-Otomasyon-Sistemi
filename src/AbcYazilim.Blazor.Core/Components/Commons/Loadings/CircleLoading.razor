@@ -1,0 +1,56 @@
+﻿<style>
+
+    .splash-screen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column nowrap;
+        height: 100vh;
+        font-family: "Segoe UI",Roboto,"Helvetica Neue","-apple-system",BlinkMacSystemFont,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        font-size: .88rem;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: center;
+        height: 100%;
+       
+        
+    }
+
+        .splash-screen .spinner-border {
+            border: 1.1rem solid;
+            border-color: #FFFF01 #FFDD66 #FFD133 #FFC600;
+            width: 150px;
+            height: 150px;
+            background-color: #A5A5A5;
+           
+        }
+
+    .splash-screen-caption {
+        font-size: 2.5rem;
+        color: #FFB133;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        text-shadow: 2px 2px 5px #FFFF01;
+    }
+
+    .splash-screen-text {
+        color: #FFB133;
+        font-size: 2.0rem;
+        margin-top: 1.5rem;               
+        text-shadow: 2px 2px 5px #FFFF01;
+    }
+
+</style>
+
+<div class="splash-screen">
+    <div class="spinner-border"></div>
+    <div class="splash-screen-caption">@Caption</div>
+    <div class="splash-screen-text">@Text</div>
+</div>
+
+@code {
+
+    [Parameter] public string Caption { get; set; }
+    [Parameter] public string Text { get; set; }
+
+}

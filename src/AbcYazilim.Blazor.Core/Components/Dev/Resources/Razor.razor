@@ -1,0 +1,134 @@
+﻿<DxButton Text="Rsource" RenderStyle="ButtonRenderStyle.Warning"
+          @onclick="@ToggleResourceNavigator">
+</DxButton>
+
+@if (ResourceNavigatorExpanded)
+{
+    <DxTreeView AfterCollapse="@(e => UpdateExpandedState(e, false))"
+                AfterExpand="@(e => UpdateExpandedState(e, false))">
+        <Nodes>
+            @foreach (Resource  group in Group)
+            {
+                <DxTreeViewNode Text="@group.Name">
+                                <Template>
+                                    <div>
+                                        <DxCheckBox T="bool"
+                                        Checked="@IsVisible(group)"
+                                        CheckedChanged="@(visible => UpdateVisibility(group, visible))">
+                                @group.Name
+                                        </DxCheckBox>
+                                    </div>
+                                </Template>
+                            </DxTreeViewNode>
+                    
+            }
+        </Nodes>
+    </DxTreeView>
+}
+
+<DxScheduler @bind-StartDate="@StartDate"
+             DataStorage="@DataStorage"
+             GroupType="SchedulerGroupType.None">
+    <DxSchedulerDayView DayCount="1" ShowWorkTimeOnly="true"></DxSchedulerDayView>
+</DxScheduler>
+
+@code {
+    // List<Resource > GroupStatus = StatusCollection.GetStatusGroups();
+    List<Resource> Group = ResourceCollection.GetResources();
+    List<int> VisibleResourceIds = new List<int>(); // Görünen status ID'leri
+
+    bool ResourceNavigatorExpanded { get; set; } = false;
+    DateTime StartDate = DateTime.Today;
+
+    DxSchedulerDataStorage DataStorage = new DxSchedulerDataStorage()
+        {
+            AppointmentsSource = ResourceAppointmentCollection.GetAppointments(),
+
+            AppointmentMappings = new DxSchedulerAppointmentMappings()
+            {
+                Id = "AppointmentType",
+                Start = "StartDate",
+                End = "EndDate",
+                Subject = "Caption",
+                AllDay = "AllDay",
+                Location = "Location",
+                Description = "Description",
+                LabelId = "Label",
+                StatusId = "Status",
+                RecurrenceInfo = "Recurrence",
+                ResourceId = "ResourceId"
+            },
+
+            ResourcesSource = ResourceCollection.GetResources(),
+            ResourceMappings = new DxSchedulerResourceMappings()
+            {
+                Id = "Id",
+                Caption = "Name",
+                BackgroundCssClass = "BackgroundCss",
+                TextCssClass = "TextCss"
+            },
+            AppointmentStatusSource = StatusCollection.GetStatuses(),
+            AppointmentStatusMappings = new DxSchedulerAppointmentStatusMappings()
+            {
+                Id = "Id",
+                Caption = "StatusCaption",
+                Color = "StatusColor"
+            }
+        };
+
+
+    void UpdateVisibility(Resource resource, bool visible)
+    {
+        if (visible && !VisibleResourceIds.Contains(resource.Id))
+        {
+            VisibleResourceIds.Add(resource.Id);
+        }
+        else if (!visible)
+        {
+            VisibleResourceIds.Remove(resource.Id);
+        }
+
+        // Filtreyi Uygula
+        ApplyResourceFilter();
+    }
+
+    void ApplyResourceFilter()
+    {
+        var filteredAppointments = ResourceAppointmentCollection.GetAppointments()
+            .Where(app => VisibleResourceIds.Contains(app.ResourceId))
+            .ToList();
+
+        DataStorage.AppointmentsSource = filteredAppointments;
+
+        StateHasChanged(); // Scheduler'ı günceller
+    }
+
+    IEnumerable<Resource> GetStatuses(Resource group)
+    {
+        return ResourceCollection.GetResources()
+                               .Where(resource => resource.GroupId == group.Id);
+    }
+
+    bool IsVisible(Resource resource)
+    {
+        return VisibleResourceIds.Contains(resource.Id);
+    }
+
+    void ToggleResourceNavigator()
+    {
+        ResourceNavigatorExpanded = !ResourceNavigatorExpanded;
+    }
+
+    Dictionary<int, bool> ExpandedState = new Dictionary<int, bool>();
+
+    bool IsExpanded(Resource resource)
+    {
+        return ExpandedState.ContainsKey(resource.Id) ? ExpandedState[resource.Id] : true;
+    }
+
+    void UpdateExpandedState(TreeViewNodeEventArgs args, bool expanded)
+    {
+        int resourceId = int.Parse(args.NodeInfo.Name);
+        ExpandedState[resourceId] = expanded;
+    }
+}
