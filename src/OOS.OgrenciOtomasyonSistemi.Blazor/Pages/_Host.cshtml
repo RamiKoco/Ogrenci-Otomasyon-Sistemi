@@ -1,0 +1,52 @@
+﻿@page "/"
+
+@inject IStringLocalizer<OgrenciOtomasyonSistemiResource> L
+
+@using System.Globalization
+@using OOS.OgrenciOtomasyonSistemi.Blazor
+@using OOS.OgrenciOtomasyonSistemi.Localization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Components.Server.BasicTheme.Bundling
+@using Volo.Abp.Localization
+
+@{
+    Layout = null;
+    var rtl = CultureHelper.IsRtl ? "rtl" : string.Empty;
+}
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentCulture.Name" dir="@rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@($"{L["fas fa-landmark"]} {L["OgrenciOtomasyonSistemi"]}")</title>
+    <base href="~/" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <abp-style-bundle name="@BlazorBasicThemeBundles.Styles.Global" />
+</head>
+<body class="abp-application-layout @rtl">
+    <div id="clock" style="text-align:right;color: white;font-weight:bold;"></div>
+    <environment include="Staging,Production">
+        <component type="typeof(App)" render-mode="ServerPrerendered" />
+    </environment>
+    <environment include="Development">
+        <component type="typeof(App)" render-mode="Server" />
+    </environment>
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            Bir hata oluştu. Bu uygulama yeniden yüklenene kadar artık yanıt vermeyebilir.
+        </environment>
+        <environment include="Development">
+            İşlenmeyen bir özel durum oluştu. Ayrıntılı bilgi için tarayıcı geliştirme araçlarına bakın.
+        </environment>
+        <a href="" class="reload">Yeniden Yükle</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <abp-script-bundle name="@BlazorBasicThemeBundles.Scripts.Global" />
+   
+ 
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>OOS.OgrenciOtomasyonSistemi</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OOS.OgrenciOtomasyonSistemi.Application.Contracts\OOS.OgrenciOtomasyonSistemi.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Blazor" Version="23.2.3" />
+    <PackageReference Include="DevExpress.Blazor.Reporting.Viewer" Version="23.2.3" />
+    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="5.1.1" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="5.1.1" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi" Version="5.1.1" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="5.1.1" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi" Version="5.1.1" />
+    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi" Version="5.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DevExpress.Blazor.Reporting.v23.2.Viewer">
+      
+    </Reference>
+  </ItemGroup>
+
+</Project>
