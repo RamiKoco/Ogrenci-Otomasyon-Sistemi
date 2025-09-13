@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "OOS.OgrenciOtomasyonSistemi.Blazor.WebApp.Client": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:55318;http://localhost:55319"
+    }
+  }
+}

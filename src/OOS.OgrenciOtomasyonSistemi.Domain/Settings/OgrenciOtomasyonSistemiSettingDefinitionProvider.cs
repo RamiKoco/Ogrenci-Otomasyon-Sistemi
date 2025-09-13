@@ -1,11 +1,12 @@
-﻿namespace OOS.OgrenciOtomasyonSistemi.Settings
+﻿using Volo.Abp.Settings;
+
+namespace OOS.OgrenciOtomasyonSistemi.Settings;
+
+public class OgrenciOtomasyonSistemiSettingDefinitionProvider : SettingDefinitionProvider
 {
-    public class OgrenciOtomasyonSistemiSettingDefinitionProvider : SettingDefinitionProvider
+    public override void Define(ISettingDefinitionContext context)
     {
-        public override void Define(ISettingDefinitionContext context)
-        {
-            //Define your own settings here. Example:
-            //context.Add(new SettingDefinition(OgrenciOtomasyonSistemiSettings.MySetting1));
-        }
+        //Define your own settings here. Example:
+        //context.Add(new SettingDefinition(OgrenciOtomasyonSistemiSettings.MySetting1));
     }
 }

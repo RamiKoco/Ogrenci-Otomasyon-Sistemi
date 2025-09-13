@@ -57,7 +57,7 @@ public class OgrenciAppService : OgrenciOtomasyonSistemiAppService, IOgrenciAppS
         await _ogrenciRepository.DeleteAsync(id);
     }
 
-    public virtual async Task<string> GetCodeAsync(OgrenciCodeParameterDto input)
+    public virtual async Task<string> GetCodeAsync(CodeParameterDto input)
     {
         return await _ogrenciRepository.GetCodeAsync(x => x.Kod, x => x.Durum == input.Durum);
     }

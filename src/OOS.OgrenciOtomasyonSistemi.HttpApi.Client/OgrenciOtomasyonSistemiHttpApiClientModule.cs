@@ -8,32 +8,31 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.VirtualFileSystem;
 
-namespace OOS.OgrenciOtomasyonSistemi
+namespace OOS.OgrenciOtomasyonSistemi;
+
+[DependsOn(
+    typeof(OgrenciOtomasyonSistemiApplicationContractsModule),
+    typeof(AbpAccountHttpApiClientModule),
+    typeof(AbpIdentityHttpApiClientModule),
+    typeof(AbpPermissionManagementHttpApiClientModule),
+    typeof(AbpTenantManagementHttpApiClientModule),
+    typeof(AbpFeatureManagementHttpApiClientModule),
+    typeof(AbpSettingManagementHttpApiClientModule)
+)]
+public class OgrenciOtomasyonSistemiHttpApiClientModule : AbpModule
 {
-    [DependsOn(
-        typeof(OgrenciOtomasyonSistemiApplicationContractsModule),
-        typeof(AbpAccountHttpApiClientModule),
-        typeof(AbpIdentityHttpApiClientModule),
-        typeof(AbpPermissionManagementHttpApiClientModule),
-        typeof(AbpTenantManagementHttpApiClientModule),
-        typeof(AbpFeatureManagementHttpApiClientModule),
-        typeof(AbpSettingManagementHttpApiClientModule)
-    )]
-    public class OgrenciOtomasyonSistemiHttpApiClientModule : AbpModule
+    public const string RemoteServiceName = "Default";
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public const string RemoteServiceName = "Default";
+        context.Services.AddHttpClientProxies(
+            typeof(OgrenciOtomasyonSistemiApplicationContractsModule).Assembly,
+            RemoteServiceName
+        );
 
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            context.Services.AddHttpClientProxies(
-                typeof(OgrenciOtomasyonSistemiApplicationContractsModule).Assembly,
-                RemoteServiceName
-            );
-
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<OgrenciOtomasyonSistemiHttpApiClientModule>();
-            });
-        }
+            options.FileSets.AddEmbedded<OgrenciOtomasyonSistemiHttpApiClientModule>();
+        });
     }
 }

@@ -1,33 +1,51 @@
-﻿
-namespace OOS.OgrenciOtomasyonSistemi.Blazor.Menus
+﻿using System.Threading.Tasks;
+using OOS.OgrenciOtomasyonSistemi.Localization;
+using OOS.OgrenciOtomasyonSistemi.MultiTenancy;
+using Volo.Abp.Identity.Blazor;
+using Volo.Abp.SettingManagement.Blazor.Menus;
+using Volo.Abp.TenantManagement.Blazor.Navigation;
+using Volo.Abp.UI.Navigation;
+
+namespace OOS.OgrenciOtomasyonSistemi.Blazor.Menus;
+
+public class OgrenciOtomasyonSistemiMenuContributor : IMenuContributor
 {
-    public class OgrenciOtomasyonSistemiMenuContributor : IMenuContributor
+    public async Task ConfigureMenuAsync(MenuConfigurationContext context)
     {
-        public async Task ConfigureMenuAsync(MenuConfigurationContext context)
+        if (context.Menu.Name == StandardMenus.Main)
         {
-            if (context.Menu.Name == StandardMenus.Main)
-            {
-                await ConfigureMainMenuAsync(context);
-            }
+            await ConfigureMainMenuAsync(context);
+        }
+    }
+
+    private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+    {
+        var administration = context.Menu.GetAdministration();
+        var l = context.GetLocalizer<OgrenciOtomasyonSistemiResource>();
+
+        context.Menu.Items.Insert(
+            0,
+            new ApplicationMenuItem(
+                OgrenciOtomasyonSistemiMenus.Home,
+                l["Menu:Home"],
+                "/",
+                icon: "fas fa-home",
+                order: 0
+            )
+        );
+
+        if (MultiTenancyConsts.IsEnabled)
+        {
+            administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
+        }
+        else
+        {
+            administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
         }
 
-        private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
-        {
-            var l = context.GetLocalizer<OgrenciOtomasyonSistemiResource>();
+        administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
+        administration.SetSubItemOrder(SettingManagementMenus.GroupName, 3);
 
-            context.Menu.Items.Clear();
-            context.Menu.Items.Insert(
-                0,
-                new ApplicationMenuItem(
-                    OgrenciOtomasyonSistemiMenus.Home,
-                    l["Menu:Home"],
-                    "/",
-                    icon: "fas fa-home",
-                    order: 0
-                )
-            );
-            
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

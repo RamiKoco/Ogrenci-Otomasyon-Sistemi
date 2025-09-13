@@ -1,10 +1,9 @@
-﻿namespace OOS.OgrenciOtomasyonSistemi.Settings
-{
-    public static class OgrenciOtomasyonSistemiSettings
-    {
-        private const string Prefix = "OgrenciOtomasyonSistemi";
+﻿namespace OOS.OgrenciOtomasyonSistemi.Settings;
 
-        //Add your own setting names here. Example:
-        //public const string MySetting1 = Prefix + ".MySetting1";
-    }
+public static class OgrenciOtomasyonSistemiSettings
+{
+    private const string Prefix = "OgrenciOtomasyonSistemi";
+
+    //Add your own setting names here. Example:
+    //public const string MySetting1 = Prefix + ".MySetting1";
 }

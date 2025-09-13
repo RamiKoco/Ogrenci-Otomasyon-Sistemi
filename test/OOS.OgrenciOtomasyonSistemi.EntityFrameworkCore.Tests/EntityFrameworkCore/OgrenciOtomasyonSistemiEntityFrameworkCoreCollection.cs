@@ -1,0 +1,9 @@
+﻿using Xunit;
+
+namespace OOS.OgrenciOtomasyonSistemi.EntityFrameworkCore;
+
+[CollectionDefinition(OgrenciOtomasyonSistemiTestConsts.CollectionDefinitionName)]
+public class OgrenciOtomasyonSistemiEntityFrameworkCoreCollection : ICollectionFixture<OgrenciOtomasyonSistemiEntityFrameworkCoreFixture>
+{
+
+}

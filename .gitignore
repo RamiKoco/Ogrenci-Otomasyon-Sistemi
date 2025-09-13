@@ -251,12 +251,15 @@ paket-files/
 .idea/
 *.sln.iml
 
-# OnMuhasebe
-src/AbcYazilim.OnMuhasebe.Web/Logs/*
-src/AbcYazilim.OnMuhasebe.Web.Host/Logs/*
-src/AbcYazilim.OnMuhasebe.IdentityServer/Logs/*
-src/AbcYazilim.OnMuhasebe.HttpApi.Host/Logs/*
-src/AbcYazilim.OnMuhasebe.HttpApi.HostWithIds/Logs/*
-src/AbcYazilim.OnMuhasebe.DbMigrator/Logs/*
-src/AbcYazilim.OnMuhasebe.Blazor/Logs/*
-src/AbcYazilim.OnMuhasebe.Blazor.Tiered/Logs/*
+# OgrenciOtomasyonSistemi
+src/OOS.OgrenciOtomasyonSistemi.Web/Logs/*
+src/OOS.OgrenciOtomasyonSistemi.Web.Host/Logs/*
+src/OOS.OgrenciOtomasyonSistemi.AuthServer/Logs/*
+src/OOS.OgrenciOtomasyonSistemi.HttpApi.Host/Logs/*
+src/OOS.OgrenciOtomasyonSistemi.HttpApi.HostWithIds/Logs/*
+src/OOS.OgrenciOtomasyonSistemi.DbMigrator/Logs/*
+src/OOS.OgrenciOtomasyonSistemi.Blazor/Logs/*
+src/OOS.OgrenciOtomasyonSistemi.Blazor.Tiered/Logs/*
+
+# Use abp install-libs to restore.
+**/wwwroot/libs/*

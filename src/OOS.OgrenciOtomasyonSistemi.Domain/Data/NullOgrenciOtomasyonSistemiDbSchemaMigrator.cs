@@ -1,13 +1,15 @@
-﻿namespace OOS.OgrenciOtomasyonSistemi.Data
+﻿using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
+
+namespace OOS.OgrenciOtomasyonSistemi.Data;
+
+/* This is used if database provider does't define
+ * IOgrenciOtomasyonSistemiDbSchemaMigrator implementation.
+ */
+public class NullOgrenciOtomasyonSistemiDbSchemaMigrator : IOgrenciOtomasyonSistemiDbSchemaMigrator, ITransientDependency
 {
-    /* This is used if database provider does't define
-     * IOgrenciOtomasyonSistemiDbSchemaMigrator implementation.
-     */
-    public class NullOgrenciOtomasyonSistemiDbSchemaMigrator : IOgrenciOtomasyonSistemiDbSchemaMigrator, ITransientDependency
+    public Task MigrateAsync()
     {
-        public Task MigrateAsync()
-        {
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

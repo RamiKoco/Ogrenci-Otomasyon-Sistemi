@@ -1,283 +1,289 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore;
+using System;
+using System.IO;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using OOS.OgrenciOtomasyonSistemi.Blazor.Components;
+using OOS.OgrenciOtomasyonSistemi.Blazor.Menus;
+using OOS.OgrenciOtomasyonSistemi.EntityFrameworkCore;
+using OOS.OgrenciOtomasyonSistemi.Localization;
+using OOS.OgrenciOtomasyonSistemi.MultiTenancy;
+using OpenIddict.Validation.AspNetCore;
+using Volo.Abp;
+using Volo.Abp.Account.Web;
+using Volo.Abp.AspNetCore.Components.Web;
+using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme;
+using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
+using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.Localization;
+using Volo.Abp.AspNetCore.Mvc.UI;
+using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
+using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.Autofac;
+using Volo.Abp.AutoMapper;
+using Volo.Abp.Identity.Blazor.Server;
+using Volo.Abp.Modularity;
+using Volo.Abp.Security.Claims;
+using Volo.Abp.SettingManagement.Blazor.Server;
+using Volo.Abp.Swashbuckle;
+using Volo.Abp.TenantManagement.Blazor.Server;
+using Volo.Abp.OpenIddict;
+using Volo.Abp.UI;
+using Volo.Abp.UI.Navigation;
+using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.VirtualFileSystem;
 
-namespace OOS.OgrenciOtomasyonSistemi.Blazor
+namespace OOS.OgrenciOtomasyonSistemi.Blazor;
+
+[DependsOn(
+    typeof(OgrenciOtomasyonSistemiApplicationModule),
+    typeof(OgrenciOtomasyonSistemiEntityFrameworkCoreModule),
+    typeof(OgrenciOtomasyonSistemiHttpApiModule),
+    typeof(AbpAutofacModule),
+    typeof(AbpSwashbuckleModule),
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpAccountWebOpenIddictModule),
+    typeof(AbpAspNetCoreComponentsServerLeptonXLiteThemeModule),
+    typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
+    typeof(AbpIdentityBlazorServerModule),
+    typeof(AbpTenantManagementBlazorServerModule),
+    typeof(AbpSettingManagementBlazorServerModule)
+   )]
+public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
 {
-    [DependsOn(
-        typeof(OgrenciOtomasyonSistemiApplicationModule),
-        typeof(OgrenciOtomasyonSistemiEntityFrameworkCoreModule),
-        typeof(OgrenciOtomasyonSistemiHttpApiModule),
-        typeof(AbpAspNetCoreMvcUiBasicThemeModule),
-        typeof(AbpAutofacModule),
-        typeof(AbpSwashbuckleModule),
-        typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
-        typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpAccountWebIdentityServerModule),
-        typeof(AbpAspNetCoreComponentsServerBasicThemeModule),
-        typeof(AbpIdentityBlazorServerModule),
-        typeof(AbpTenantManagementBlazorServerModule),
-        typeof(AbpSettingManagementBlazorServerModule)
-       )]
-    public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
+    public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        public string MyProperty { get; set; }
-        public override void PreConfigureServices(ServiceConfigurationContext context)
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
+        var configuration = context.Services.GetConfiguration();
+
+        context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
         {
-            context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
+            options.AddAssemblyResource(
+                typeof(OgrenciOtomasyonSistemiResource),
+                typeof(OgrenciOtomasyonSistemiDomainModule).Assembly,
+                typeof(OgrenciOtomasyonSistemiDomainSharedModule).Assembly,
+                typeof(OgrenciOtomasyonSistemiApplicationModule).Assembly,
+                typeof(OgrenciOtomasyonSistemiApplicationContractsModule).Assembly,
+                typeof(OgrenciOtomasyonSistemiBlazorModule).Assembly
+            );
+        });
+
+        PreConfigure<OpenIddictBuilder>(builder =>
+        {
+            builder.AddValidation(options =>
             {
-                options.AddAssemblyResource(
-                    typeof(OgrenciOtomasyonSistemiResource),
-                    typeof(OgrenciOtomasyonSistemiDomainModule).Assembly,
-                    typeof(OgrenciOtomasyonSistemiDomainSharedModule).Assembly,
-                    typeof(OgrenciOtomasyonSistemiApplicationModule).Assembly,
-                    typeof(OgrenciOtomasyonSistemiApplicationContractsModule).Assembly,
-                    typeof(OgrenciOtomasyonSistemiBlazorModule).Assembly
-                );
+                options.AddAudiences("OgrenciOtomasyonSistemi");
+                options.UseLocalServer();
+                options.UseAspNetCore();
+            });
+        });
+
+        if (!hostingEnvironment.IsDevelopment())
+        {
+            PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
+            {
+                options.AddDevelopmentEncryptionAndSigningCertificate = false;
+            });
+
+            PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
+            {
+                serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", "617a062a-0613-4c58-882f-af152be5c52b");
             });
         }
 
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        PreConfigure<AbpAspNetCoreComponentsWebOptions>(options =>
         {
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
-            var configuration = context.Services.GetConfiguration();
-            
-            ConfigureUrls(configuration);
-            ConfigureBundles();
-            ConfigureAuthentication(context, configuration);
-            ConfigureAutoMapper();
-            ConfigureVirtualFileSystem(hostingEnvironment);
-            ConfigureLocalizationServices();
-            ConfigureSwaggerServices(context.Services);
-            ConfigureAutoApiControllers();
-            ConfigureBlazorise(context);
-            ConfigureRouter(context);
-            ConfigureMenu(context);
-            ConfigureDevExpress(context);
-            ConfigureDevExpressReport(context);
-            ConfigureAntiForgery();
+            options.IsBlazorWebApp = true;
+        });
+    }
 
-            Configure<AbpDbContextOptions>(options =>
-            {
-                options.Configure<OgrenciOtomasyonSistemiDbContext>(dbContextOptions =>
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
+        var configuration = context.Services.GetConfiguration();
+
+        // Add services to the container.
+        context.Services.AddRazorComponents()
+            .AddInteractiveServerComponents();
+
+        ConfigureAuthentication(context);
+        ConfigureUrls(configuration);
+        ConfigureBundles();
+        ConfigureAutoMapper();
+        ConfigureVirtualFileSystem(hostingEnvironment);
+        ConfigureSwaggerServices(context.Services);
+        ConfigureAutoApiControllers();
+        ConfigureBlazorise(context);
+        ConfigureRouter(context);
+        ConfigureMenu(context);
+    }
+
+    private void ConfigureAuthentication(ServiceConfigurationContext context)
+    {
+        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
+        {
+            options.IsDynamicClaimsEnabled = true;
+        });
+    }
+
+    private void ConfigureUrls(IConfiguration configuration)
+    {
+        Configure<AppUrlOptions>(options =>
+        {
+            options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+            options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"]?.Split(',') ?? Array.Empty<string>());
+        });
+    }
+
+    private void ConfigureBundles()
+    {
+        Configure<AbpBundlingOptions>(options =>
+        {
+            // MVC UI
+            options.StyleBundles.Configure(
+                LeptonXLiteThemeBundles.Styles.Global,
+                bundle =>
                 {
-                    dbContextOptions.DbContextOptions.UseNpgsql(
-                        configuration.GetConnectionString("Default")
-                    );
-                });
-            });
-        }
-
-        private void ConfigureUrls(IConfiguration configuration)
-        {
-            Configure<AppUrlOptions>(options =>
-            {
-                options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
-                options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
-            });
-        }
-
-        private void ConfigureBundles()
-        {
-            Configure<AbpBundlingOptions>(options =>
-            {
-                // MVC UI
-                options.StyleBundles.Configure(
-                    BasicThemeBundles.Styles.Global,
-                    bundle =>
-                    {
-                        bundle.AddFiles("/global-styles.css");
-                    }
-                );
-
-                //BLAZOR UI
-                options.StyleBundles.Configure(
-                    BlazorBasicThemeBundles.Styles.Global,
-                    bundle =>
-                    {
-                        bundle.AddFiles("/css/site.css");
-                        //bundle.AddFiles("/css/scheduler.css");
-                        bundle.AddFiles("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css");
-                        bundle.AddFiles("/blazor-global-styles.css");
-                        bundle.AddFiles("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css");
-                        bundle.AddFiles("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css");
-                        bundle.AddFiles("/_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.css");
-                        bundle.AddFiles("/_content/OOS.Blazor.Core/css/component.css");
-
-                    }
-                );
-
-                options.ScriptBundles.Configure(
-                    BlazorBasicThemeBundles.Scripts.Global,
-                    bundle =>
-                    {
-                        //Varsa js dosya yolları buraya eklenecek.
-                        bundle.AddFiles("/js/javascript.js");
-                    }
-                );
-            });
-        }
-
-        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
-        {
-            context.Services.AddAuthentication()
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = configuration["AuthServer:Authority"];
-                    options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-                    options.Audience = "OgrenciOtomasyonSistemi";
-                });
-        }
-
-        private void ConfigureVirtualFileSystem(IWebHostEnvironment hostingEnvironment)
-        {
-            if (hostingEnvironment.IsDevelopment())
-            {
-                Configure<AbpVirtualFileSystemOptions>(options =>
-                {
-                    options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Domain.Shared"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Domain"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Application.Contracts"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Application"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiBlazorModule>(hostingEnvironment.ContentRootPath);
-                });
-            }
-        }
-
-        private void ConfigureLocalizationServices()
-        {
-            Configure<AbpLocalizationOptions>(options =>
-            {
-                options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
-                options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
-                options.Languages.Add(new LanguageInfo("en", "en", "English"));
-                options.Languages.Add(new LanguageInfo("en-GB", "en-GB", "English (UK)"));
-                options.Languages.Add(new LanguageInfo("hu", "hu", "Magyar"));
-                options.Languages.Add(new LanguageInfo("fi", "fi", "Finnish"));
-                options.Languages.Add(new LanguageInfo("fr", "fr", "Français"));
-                options.Languages.Add(new LanguageInfo("hi", "hi", "Hindi", "in"));
-                options.Languages.Add(new LanguageInfo("is", "is", "Icelandic", "is"));
-                options.Languages.Add(new LanguageInfo("it", "it", "Italiano", "it"));
-                options.Languages.Add(new LanguageInfo("pt-BR", "pt-BR", "Português"));
-                options.Languages.Add(new LanguageInfo("ro-RO", "ro-RO", "Română"));
-                options.Languages.Add(new LanguageInfo("ru", "ru", "Русский"));
-                options.Languages.Add(new LanguageInfo("sk", "sk", "Slovak"));
-                options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe"));
-                options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
-                options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
-                options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsch", "de"));
-                options.Languages.Add(new LanguageInfo("es", "es", "Español"));
-            });
-        }
-
-        private void ConfigureSwaggerServices(IServiceCollection services)
-        {
-            services.AddAbpSwaggerGen(
-                options =>
-                {
-                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "OgrenciOtomasyonSistemi API", Version = "v1" });
-                    options.DocInclusionPredicate((docName, description) => true);
-                    options.CustomSchemaIds(type => type.FullName);
+                    bundle.AddFiles("/global-styles.css");
                 }
             );
-        }
 
-        private void ConfigureBlazorise(ServiceConfigurationContext context)
-        {
-            context.Services
-                .AddBootstrap5Providers()
-                .AddFontAwesomeIcons();
-        }
+            //BLAZOR UI
+            options.StyleBundles.Configure(
+                BlazorLeptonXLiteThemeBundles.Styles.Global,
+                bundle =>
+                {
+                    bundle.AddFiles("/blazor-global-styles.css");
+                    //You can remove the following line if you don't use Blazor CSS isolation for components
+                    bundle.AddFiles(new BundleFile("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css", true));
+                }
+            );
+        });
+    }
 
-        private void ConfigureMenu(ServiceConfigurationContext context)
+    private void ConfigureVirtualFileSystem(IWebHostEnvironment hostingEnvironment)
+    {
+        if (hostingEnvironment.IsDevelopment())
         {
-            Configure<AbpNavigationOptions>(options =>
+            Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.MenuContributors.Add(new OgrenciOtomasyonSistemiMenuContributor());
+                options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Domain.Shared"));
+                options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Domain"));
+                options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Application.Contracts"));
+                options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}OOS.OgrenciOtomasyonSistemi.Application"));
+                options.FileSets.ReplaceEmbeddedByPhysical<OgrenciOtomasyonSistemiBlazorModule>(hostingEnvironment.ContentRootPath);
             });
         }
+    }
 
-        private void ConfigureRouter(ServiceConfigurationContext context)
-        {
-            Configure<AbpRouterOptions>(options =>
+    private void ConfigureSwaggerServices(IServiceCollection services)
+    {
+        services.AddAbpSwaggerGen(
+            options =>
             {
-                options.AppAssembly = typeof(OgrenciOtomasyonSistemiBlazorModule).Assembly;
-            });
-        }
-        private void ConfigureAutoApiControllers()
-        {
-            Configure<AbpAspNetCoreMvcOptions>(options =>
-            {
-                options.ConventionalControllers.Create(typeof(OgrenciOtomasyonSistemiApplicationModule).Assembly);
-            });
-        }
-        private void ConfigureAutoMapper()
-        {
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<OgrenciOtomasyonSistemiBlazorModule>();
-            });
-        }
-        private void ConfigureDevExpress(ServiceConfigurationContext context)
-        {
-            context.Services.AddDevExpressBlazor();
-            context.Services.Configure<GlobalOptions>(options =>
-            {
-                options.BootstrapVersion = DevExpress.Blazor.BootstrapVersion.v5;
-            });
-        }
-
-        private void ConfigureDevExpressReport(ServiceConfigurationContext context)
-        {
-            context.Services.AddDevExpressServerSideBlazorReportViewer();
-        }
-        private void ConfigureAntiForgery()
-        {
-            Configure<AbpAntiForgeryOptions>(options =>
-            {
-                options.AutoValidateFilter = type => type == typeof(DownloadExportResultControllerBase);
-            });
-        }
-
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
-        {
-            var env = context.GetEnvironment();
-            var app = context.GetApplicationBuilder();
-
-            //app.UseDevExpressServerSideBlazorReportViewer();
-            app.UseAbpRequestLocalization();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "OgrenciOtomasyonSistemi API", Version = "v1" });
+                options.DocInclusionPredicate((docName, description) => true);
+                options.CustomSchemaIds(type => type.FullName);
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
+        );
+    }
 
-            app.UseHttpsRedirection();
-            app.UseCorrelationId();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseJwtTokenMiddleware();
+    private void ConfigureBlazorise(ServiceConfigurationContext context)
+    {
+        context.Services
+            .AddBootstrap5Providers()
+            .AddFontAwesomeIcons();
+    }
 
-            if (MultiTenancyConsts.IsEnabled)
-            {
-                app.UseMultiTenancy();
-            }
+    private void ConfigureMenu(ServiceConfigurationContext context)
+    {
+        Configure<AbpNavigationOptions>(options =>
+        {
+            options.MenuContributors.Add(new OgrenciOtomasyonSistemiMenuContributor());
+        });
+    }
 
-            app.UseUnitOfWork();
-            app.UseIdentityServer();
-            app.UseAuthorization();
-            app.UseSwagger();
-            app.UseAbpSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "OgrenciOtomasyonSistemi API");
-            });
-            app.UseConfiguredEndpoints();
+    private void ConfigureRouter(ServiceConfigurationContext context)
+    {
+        Configure<AbpRouterOptions>(options =>
+        {
+            options.AppAssembly = typeof(OgrenciOtomasyonSistemiBlazorModule).Assembly;
+        });
+    }
+
+    private void ConfigureAutoApiControllers()
+    {
+        Configure<AbpAspNetCoreMvcOptions>(options =>
+        {
+            options.ConventionalControllers.Create(typeof(OgrenciOtomasyonSistemiApplicationModule).Assembly);
+        });
+    }
+
+    private void ConfigureAutoMapper()
+    {
+        Configure<AbpAutoMapperOptions>(options =>
+        {
+            options.AddMaps<OgrenciOtomasyonSistemiBlazorModule>();
+        });
+    }
+
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        var env = context.GetEnvironment();
+        var app = context.GetApplicationBuilder();
+
+        app.UseAbpRequestLocalization();
+
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
+        else
+        {
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseCorrelationId();
+        app.MapAbpStaticAssets();
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAbpOpenIddictValidation();
+
+        if (MultiTenancyConsts.IsEnabled)
+        {
+            app.UseMultiTenancy();
+        }
+        app.UseUnitOfWork();
+        app.UseDynamicClaims();
+        app.UseAntiforgery();
+        app.UseAuthorization();
+
+        app.UseSwagger();
+        app.UseAbpSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "OgrenciOtomasyonSistemi API");
+        });
+
+        app.UseConfiguredEndpoints(builder =>
+        {
+            builder.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode()
+                .AddAdditionalAssemblies(builder.ServiceProvider.GetRequiredService<IOptions<AbpRouterOptions>>().Value.AdditionalAssemblies.ToArray());
+        });
     }
 }

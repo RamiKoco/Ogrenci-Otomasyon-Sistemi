@@ -19,9 +19,9 @@ global using Volo.Abp.TenantManagement;
 
 global using OOS.OgrenciOtomasyonSistemi.Permissions;
 global using OOS.OgrenciOtomasyonSistemi.CommonDtos;
-global using OOS.OgrenciOtomasyonSistemi.Donemler;
-global using OOS.OgrenciOtomasyonSistemi.Images;
+//global using OOS.OgrenciOtomasyonSistemi.Donemler;
+//global using OOS.OgrenciOtomasyonSistemi.Images;
 global using OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 global using OOS.OgrenciOtomasyonSistemi.Localization;
-global using OOS.OgrenciOtomasyonSistemi.Parametreler;
-global using OOS.OgrenciOtomasyonSistemi.Subeler;
+//global using OOS.OgrenciOtomasyonSistemi.Parametreler;
+//global using OOS.OgrenciOtomasyonSistemi.Subeler;

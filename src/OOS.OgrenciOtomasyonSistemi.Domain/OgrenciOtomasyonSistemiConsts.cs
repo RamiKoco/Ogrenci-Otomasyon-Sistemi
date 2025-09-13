@@ -1,9 +1,8 @@
-﻿namespace OOS.OgrenciOtomasyonSistemi
-{
-    public static class OgrenciOtomasyonSistemiConsts
-    {
-        public const string DbTablePrefix = "App";
+﻿namespace OOS.OgrenciOtomasyonSistemi;
 
-        public const string DbSchema = null;
-    }
+public static class OgrenciOtomasyonSistemiConsts
+{
+    public const string DbTablePrefix = "App";
+
+    public const string DbSchema = null;
 }
