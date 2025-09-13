@@ -1,0 +1,373 @@
+﻿
+@inject IConfiguration config
+@inject IJSRuntime JS
+@inherits BaseEditPage
+@inject OgrenciService Service
+@inject IWebHostEnvironment Environment
+
+<DevPopupEditPageLayout CancelButtonText="@L["Cancel"]"
+                        EditPageService="Service"
+                        Caption="@L["StudentCard"]"
+                        Height="760px"
+                        ListPageService="Service"
+                        OnSubmit="OnSubmit"
+                        SubmitButtonText="@L["Save"]"
+                        Width="800px">
+    <EditPageContent>
+
+        <DevGridLayout ColumnCount="7"
+                       ColumnWidths="@ColumnWidths("110","2","215","35","120","2","215","25")"
+                       RowCount="19">
+            <GridLayoutItems>
+                <DevTextEdit Caption="@L["Code"]"
+                             ColumnIndex="2"
+                             NullText="@L["EnterCode"]"
+                             RowIndex="1"
+                             @bind-Value="@Service.DataSource.Kod">
+                </DevTextEdit>
+                <DevCheckEdit ColumnIndex="6"
+                              FalseCaption="@L["Passive"]"
+                              RowIndex="0"
+                              TrueCaption="@L["Active"]"
+                              @bind-Value="@Service.DataSource.Durum">
+                </DevCheckEdit>
+
+                <DxGridLayoutItem Column="4" ColumnSpan="3" Row="1" RowSpan="5">
+                    <Template>                      
+
+                        <Image Class="@CssClass"
+                               Background="Background.Secondary"
+                               Border="Border.Secondary"
+                               Source="@Service.DataSource.Image"
+                               Text="@Service.DataSource.Ad"
+                               Display="Display.Block"
+                               Width="Width.Is50"
+                               Height="Height.Max100" />
+                    </Template>
+                </DxGridLayoutItem>
+
+                <DxGridLayoutItem Column="4"
+                                  ColumnSpan="3"
+                                  Row="6">
+                    <Template>
+                        <InputFile OnChange="@LoadFiles" class="form-control" multiple accept=".png,.jpg,.jpeg" />
+
+                        @if (errors.Count > 0)
+                        {
+                            <h2>Errors</h2>
+                            <ul class="text-danger">
+                                @foreach (var error in errors)
+                                {
+                                    <li>@error</li>
+                                }
+                            </ul>
+                        }
+
+                        @if (uploadedFiles.Count > 0)
+                        {
+                     
+                            @if (!string.IsNullOrEmpty(newFileName))
+                            {
+                                Service.DataSource.Image = $"/images/{newFileName}";
+                            }
+                        }
+                    </Template>
+                </DxGridLayoutItem>
+                <DevTextEdit Caption="@L["Name"]"
+                             ColumnIndex="2"
+                             IsFocus="true"
+                             NullText="@L["EnterName"]"
+                             RowIndex="2"
+                             @bind-Value="@Service.DataSource.Ad">
+                </DevTextEdit>
+                <DevTextEdit Caption="@L["Surname"]"
+                             ColumnIndex="2"
+                             NullText="@L["EnterSurname"]"
+                             RowIndex="3"
+                             @bind-Value="@Service.DataSource.Soyad">
+                </DevTextEdit>
+
+
+                <DevTCNoEdit Caption="@L["IdNumber"]"
+                             ColumnIndex="2"
+                             NullText="@L["EnterTIdNumber"]"
+                             RowIndex="4"
+                             @bind-Value="@Service.DataSource.TCNo">
+                </DevTCNoEdit>
+                <DevDateEdit Caption="@L["Kimlik G.T."]"
+                             ColumnIndex="2"
+                             NullText="@L["Kimlik Geçerlilik Tarihi"]"
+                             RowIndex="5"
+                             @bind-Value="@Service.DataSource.KimlikGT">
+                </DevDateEdit>    
+                <DevTextEdit Caption="@L["Image"]"
+                             ColumnIndex="6"
+                             ReadOnly="true"
+                             RowIndex="6"
+                             Visible="false"
+                             @bind-Value="@Service.DataSource.Image">
+                </DevTextEdit>
+
+
+                <DevMemoEdit Caption="@L["Description"]"
+                             ColumnIndex="2"
+                             ColumnSpan="5"
+                             NullText="@L["EnterDescription"]"
+                             RowIndex="7"
+                             @bind-Value="@Service.DataSource.Aciklama">
+                </DevMemoEdit>
+
+
+                <DxGridLayoutItem CssClass="@CssClass1"
+                                  Column="2"
+                                  ColumnSpan="6"
+                                  Row="9">
+                    <Template>
+                        <DxButton CssClass="bg-primary" Text="Ek Bilgiler" Click="ShowEkBilgiler" />
+                        <DxButton CssClass="bg-primary" Text="İletişim Bilgileri" Click="ShowAddress" />
+                        <DxButton CssClass="bg-primary" Text="Diğer" Click="ShowOther" />
+                    </Template>
+                </DxGridLayoutItem>
+
+                @*-----------------Ek Bilgiler-----------------*@
+                <DevTextEdit Caption="@L["MotherName"]"
+                             ColumnIndex="2"
+                             NullText="@L["EnterMotherName"]"
+                             RowIndex="11"
+                             Visible="EkBilgiler"
+                             @bind-Value="@Service.DataSource.AnneAd">
+                </DevTextEdit>
+                <DevTextEdit Caption="@L["FatherName"]"
+                             ColumnIndex="2"
+                             NullText="@L["EnterFatherName"]"
+                             RowIndex="12"
+                             Visible="EkBilgiler"
+                             @bind-Value="@Service.DataSource.BabaAd">
+                </DevTextEdit>
+                <DevComboBoxEnumEdit Caption="@L["Gender"]"
+                                     ColumnIndex="2"
+                                     DataSource="@(FillEnumToComboBox<Cinsiyet>(L))"
+                                     RowIndex="13"
+                                     Visible="EkBilgiler"
+                                     SelectedItemChanged="Service.CinsiyetSelectedItemChanged"
+                                     TextFieldName="@nameof(ComboBoxEnumItem<Cinsiyet>.DisplayName)"
+                                     TItem="Cinsiyet"
+                                     @bind-Value="@Service.DataSource.Cinsiyet"
+                                     ValueFieldName="@nameof(ComboBoxEnumItem<Cinsiyet>.Value)">
+                </DevComboBoxEnumEdit>
+                <DevTelEdit Caption="@L["Telephone1"]"
+                            ColumnIndex="2"
+                            NullText="@L["EnterTelephone"]"
+                            RowIndex="14"
+                            Visible="EkBilgiler"
+                            @bind-Value="@Service.DataSource.Telefon">
+                </DevTelEdit>
+
+
+                <DevEmailEdit Caption="@L["Email1"]"
+                              ColumnIndex="8"
+                              NullText="@L["EnterEmail"]"
+                              RowIndex="14"
+                              Visible="EkBilgiler"
+                              @bind-Value="@Service.DataSource.Email">
+                </DevEmailEdit>
+
+                <DevComboBoxEnumEdit Caption="@L["BloodGroup"]"
+                                     ColumnIndex="2"
+                                     DataSource="@(FillEnumToComboBox<KanGrubu>(L))"
+                                     RowIndex="15"
+                                     Visible="EkBilgiler"
+                                     SelectedItemChanged="Service.KanGrubuSelectedItemChanged"
+                                     TextFieldName="@nameof(ComboBoxEnumItem<KanGrubu>.DisplayName)"
+                                     TItem="KanGrubu"
+                                     @bind-Value="@Service.DataSource.KanGrubu"
+                                     ValueFieldName="@nameof(ComboBoxEnumItem<KanGrubu>.Value)">
+                </DevComboBoxEnumEdit>              
+              
+                <DevDateEdit Caption="@L["BirthDate"]"
+                             ColumnIndex="6"
+                             NullText="@L["EnterDate"]"
+                             RowIndex="11"
+                             Visible="EkBilgiler"
+                             @bind-Value="@Service.DataSource.DogumTarihi">
+                </DevDateEdit>
+                <DevTextEdit Caption="@L["BirthPlace"]"
+                             ColumnIndex="6"
+                             NullText="@L["EnterBirthPlace"]"
+                             RowIndex="12"
+                             Visible="EkBilgiler"
+                             @bind-Value="@Service.DataSource.DogumYeri">
+                </DevTextEdit>
+                <DevTextEdit Caption="@L["DocumentNo"]"
+                             ColumnIndex="6"
+                             NullText="@L["A12M34567"]"
+                             RowIndex="13"
+                             Visible="EkBilgiler"
+                             @bind-Value="@Service.DataSource.SeriNo">
+                </DevTextEdit>
+              
+             
+             
+                <DxGridLayoutItem CssClass="@CssClass1"
+                                  Column="2"
+                                  ColumnSpan="5"
+                                  Row="18">
+                </DxGridLayoutItem>
+            </GridLayoutItems>
+        </DevGridLayout>
+    </EditPageContent>
+</DevPopupEditPageLayout>
+
+
+@code {
+    [Parameter] public bool Education { get; set; } = false;
+    [Parameter] public bool EkBilgiler { get; set; } = true;
+    [Parameter] public bool Iletisim { get; set; } = false;
+    [Parameter] public bool Address { get; set; } = false;
+    [Parameter] public bool IsHayati { get; set; } = false;
+    [Parameter] public bool Other { get; set; } = false;
+    [Parameter] public DateTime DateTime { get; set; } = DateTime.Now;
+    private void ShowEkBilgiler()
+    {
+        Address = false;
+        EkBilgiler = true;
+        Education = false;
+        Iletisim = false;
+        IsHayati = false;
+        Other = false;
+    }
+    private void ShowEducation()
+    {
+        Address = false;
+        EkBilgiler = false;
+        Education = true;
+        Iletisim = false;
+        IsHayati = false;
+        Other = false;
+    }
+    private void ShowIletisim()
+    {
+        Address = false;
+        Education = false;
+        EkBilgiler = false;
+        Iletisim = true;
+        IsHayati = false;
+        Other = false;
+    }
+    private void ShowAddress()
+    {
+        Address = true;
+        Education = false;
+        EkBilgiler = false;
+        Iletisim = false;
+        IsHayati = false;
+        Other = false;
+    }
+    private void ShowIsHayati()
+    {
+        IsHayati = true;
+        Education = false;
+        Address = false;
+        EkBilgiler = false;
+        Iletisim = false;
+        Other = false;
+    }
+    private void ShowOther()
+    {
+        IsHayati = false;
+        Education = false;
+        Address = false;
+        EkBilgiler = false;
+        Iletisim = false;
+        Other = true;
+    }
+    [Parameter] public EventCallback NewButtonClick { get; set; }
+    [Parameter] public string CssClass { get; set; } = "float-end";
+    [Parameter] public string CssClass1 { get; set; } = "bg-primary";
+
+    private long maxFileSize = 1024 * 1024 * 16; // 16MB
+    private int maxAllowedFiles = 3;
+    private List<string> errors = new();
+    private List<string> uploadedFiles = new(); // Yeni isimleri saklamak için
+    public string newFileName = "";
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        errors.Clear();
+        uploadedFiles.Clear();
+
+        if (e.FileCount > maxAllowedFiles)
+        {
+            errors.Add($"Error: Attempting to upload {e.FileCount} files, but only {maxAllowedFiles} files are allowed");
+            return;
+        }
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            try
+            {
+                string extension = Path.GetExtension(file.Name);
+                string baseName = Path.GetFileNameWithoutExtension(file.Name);
+
+                // Dosya adı ve uzantı kombinasyonu
+                newFileName = $"{Service.DataSource.Ad}{extension}";
+
+                string path = Path.Combine(
+                    "wwwroot", // wwwroot klasörüne kaydetmek için
+                    "images",
+                    newFileName);
+
+                // images klasörü yoksa oluştur
+                Directory.CreateDirectory(Path.Combine("wwwroot", "images"));
+
+                // Eğer aynı dosya adı zaten mevcutsa, sonuna sayı ekle
+                int counter = 1;
+                while (File.Exists(path))
+                {
+                    newFileName = $"{baseName}{counter}{extension}";
+                    path = Path.Combine("wwwroot", "images", newFileName);
+                    counter++;
+                }
+
+                // Dosyayı kaydet
+                // await using FileStream fs = new(path, FileMode.Create);
+                // await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
+                // Dosyayı optimize et ve kaydet
+                using var image = await SixLabors.ImageSharp.Image.LoadAsync(file.OpenReadStream(maxFileSize));
+                image.Metadata.ExifProfile = null; // Gereksiz meta verileri temizle
+                await SaveOptimizedImage(image, path, extension);
+
+                // Yüklenen dosya adını listeye ekle
+                uploadedFiles.Add(newFileName);
+            }
+            catch (Exception ex)
+            {
+                errors.Add($"File: {file.Name} Error: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task SaveOptimizedImage(SixLabors.ImageSharp.Image image, string path, string extension)
+    {
+        if (extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase) || extension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+        {
+            var jpegEncoder = new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder
+                {
+                    Quality = 100 // Kaliteyi artır
+                };
+            await image.SaveAsync(path, jpegEncoder);
+        }
+        else if (extension.Equals(".png", StringComparison.OrdinalIgnoreCase))
+        {
+            var pngEncoder = new SixLabors.ImageSharp.Formats.Png.PngEncoder();
+            await image.SaveAsync(path, pngEncoder);
+        }
+        else
+        {
+            // Diğer formatlar için varsayılan kaydetme işlemi
+            await image.SaveAsync(path);
+        }
+    }
+
+}

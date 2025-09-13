@@ -1,0 +1,223 @@
+﻿
+@inject IStringLocalizer<OgrenciOtomasyonSistemiResource> L
+@inject AppService AppService
+@inject NavigationManager NavigationManager
+@inject IAuthorizationService AuthorizationService
+
+<div class="card">
+    <div class="accordion-body">
+
+        <DxMenu CssClass="@CssClass1"
+                Title="@($" {L["Pre-Accounting"]}")"
+        ItemsPosition="ItemPosition.Start"
+        CollapseItemsToHamburgerMenu="true">
+
+            <Items>
+                <AuthorizeView Context="AuthorizeContext">
+                    <Authorized>
+                        <DxMenuItem CssClass="@CssClass"
+                        Text="@L["Home"]"
+                        NavigateUrl="/"
+                        IconCssClass="fas fa-chart-pie"
+                        BeginGroup="true" />
+
+                        <DxMenuItem CssClass="@CssClass"
+                        Text="@L["Cards"]"
+                        IconCssClass="fa fa-clone">
+                            <Items>
+                              
+                              
+                                @if (_ogrenci)
+                                {
+                                    <DxMenuItem CssClass="@CssClass"
+                                                Text="@L["StudentCards"]"
+                                                NavigateUrl="studentcards"
+                                                IconCssClass="fa fa-clone" />
+                                }
+
+                             
+
+                            </Items>
+                        </DxMenuItem>
+                     
+                        @if (_parametre)
+                        {
+                            <DxMenuItem CssClass="@CssClass"
+                                        Text="@L["Parameters"]"
+                                        IconCssClass="fas fa-clipboard-check">
+                                <Items>
+                                    <DxMenuItem CssClass="@CssClass"
+                                                Text="@L["FirmParameters"]"
+                                                Click="()=> AppService.ShowFirmaParametreEditPage=true"
+                                                IconCssClass="fas fa-clipboard-check" />
+
+
+
+                                    @if (_sube)
+                                    {
+                                        <DxMenuItem CssClass="@CssClass"
+                                                    Text="@L["BranchCards"]"
+                                                    NavigateUrl="branchcards"
+                                                    IconCssClass="fa fa-clone" />
+                                    }
+
+                                    @if (_donem)
+                                    {
+                                        <DxMenuItem CssClass="@CssClass"
+                                                    Text="@L["PeriodCards"]"
+                                                    NavigateUrl="periodcards"
+                                                    IconCssClass="fa fa-clone" />
+                                    }                                  
+                                 
+                                </Items>
+                            </DxMenuItem>
+                        }
+
+
+                        @if (_tenant || _role || _user || _ayar)
+                        {
+                            <DxMenuItem CssClass="@CssClass"
+                                        Text="@L["Administration"]"
+                                        IconCssClass="fas fa-wrench">
+                                <Items>
+
+                                    @if (_tenant)
+                                    {
+                                        <DxMenuItem CssClass="@CssClass"
+                                                    Text="@L["TenantManagement"]"
+                                                    IconCssClass="fas fa-user">
+                                            <Items>
+                                                <DxMenuItem CssClass="@CssClass"
+                                                            Text="@L["Tenants"]"
+                                                            NavigateUrl="tenant-management/tenants"
+                                                            IconCssClass="fas fa-user" />
+                                            </Items>
+                                        </DxMenuItem>
+                                    }
+
+                                    @if (_role || _user)
+                                    {
+                                        <DxMenuItem CssClass="@CssClass"
+                                                    Text="@L["IdentityManagement"]"
+                                                    IconCssClass="fas fa-user-lock">
+                                            <Items>
+                                                @if (_role)
+                                                {
+                                                    <DxMenuItem CssClass="@CssClass"
+                                                                Text="@L["Roles"]"
+                                                                NavigateUrl="Identity/Roles"
+                                                                IconCssClass="fas fa-user-lock" />
+                                                }
+
+                                                @if (_user)
+                                                {
+                                                    <DxMenuItem CssClass="@CssClass"
+                                                                Text="@L["Users"]"
+                                                                NavigateUrl="Identity/Users"
+                                                                IconCssClass="fas fa-user-lock" />
+                                                }
+                                            </Items>
+                                        </DxMenuItem>
+                                    }
+
+                                    @if (_ayar)
+                                    {
+                                        <DxMenuItem CssClass="@CssClass"
+                                                    Text="@L["Settings"]"
+                                                    NavigateUrl="setting-management"
+                                                    IconCssClass="fas fa-cog" />
+                                    }
+                                </Items>
+                            </DxMenuItem>
+                        }
+
+
+                        <DxMenuItem CssClass="@CssClass"
+                                    Click="()=> AppService.ShowSubeDonemEditPage = true"
+                                    Position="ItemPosition.End"
+                                    BeginGroup="true">
+                @*             <TextTemplate>
+                                <i class="far fa-building pe-2" />
+                                @AppService.FirmaParametre.SubeAdi
+
+                                <i class="ps-3 fas fa-minus pe-3" />
+
+                                <i class="fas fa-calendar-alt pe-2" />
+                                @AppService.FirmaParametre.DonemAdi
+                            </TextTemplate> *@
+                        </DxMenuItem>
+
+
+                    </Authorized>
+                </AuthorizeView>
+
+                <LoginDisplay />
+
+            </Items>
+
+        </DxMenu>
+    </div>
+</div>
+
+
+@* @if (AppService.ShowFirmaParametreEditPage)
+{
+    <FirmaParametreEditPage />
+}
+
+@if (AppService.ShowSubeDonemEditPage)
+{
+    <SubeDonemSecimEditPage />
+} *@
+
+@code {
+    [Parameter] public string CssClass { get; set; } = "cssClass";
+    [Parameter] public string CssClass1 { get; set; } = "cssClass1";
+    [Parameter] public string IconCssClass { get; set; } = "iconCssClass";
+    protected override void OnInitialized()
+    {
+        var url = NavigationManager.Uri.RemovePreFix(NavigationManager.BaseUri).
+                  EnsureStartsWith('/');
+
+        if (url != "/")
+            NavigationManager.NavigateTo("/", true);
+
+        AppService.HasChanged = StateHasChanged;
+    }
+
+    bool  _ogrenci, _sube, _donem, _parametre, _tenant, _role, _user, _ayar;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _ogrenci = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Ogrenci.Default);       
+     
+        // _sube = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Sube.Default);
+        // _donem = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Donem.Default);
+
+        _parametre = true;
+
+        _tenant = await AuthorizationService.IsGrantedAsync(TenantManagementPermissions.Tenants.Default);
+        _role = await AuthorizationService.IsGrantedAsync(IdentityPermissions.Roles.Default);
+        _user = await AuthorizationService.IsGrantedAsync(IdentityPermissions.Users.Default);
+        _ayar = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Ayar.Default);
+    }
+}
+<style>
+    .cssClass {
+        border: 0.5px groove white;
+        background-color: #4D4D4D;
+        color: white;
+        /*  MainMenu Backgroun-color && text-color */
+    }
+
+    .cssClass1 {
+        background-color: #4D4D4D;
+        color: #FFD133;
+        /*  MainMenu Backgroun-color && text-color */
+    }
+
+    .iconCssClass {
+        background-color: #ffffcc;
+        color: #0066ff;
+    }
+</style>
