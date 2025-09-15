@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
-using OOS.OgrenciOtomasyonSistemi.Localization;
-using Volo.Abp.DependencyInjection;
-using Volo.Abp.Ui.Branding;
-
+﻿
 namespace OOS.OgrenciOtomasyonSistemi.Blazor;
 
 [Dependency(ReplaceServices = true)]

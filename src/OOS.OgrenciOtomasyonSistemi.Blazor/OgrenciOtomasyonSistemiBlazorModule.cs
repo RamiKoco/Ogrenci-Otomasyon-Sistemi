@@ -175,7 +175,7 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
                     bundle.AddFiles(new BundleFile("/blazor-global-styles.css"));
                     bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css", true));
                     bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css", true));
-                    bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.css", true));
+                    //bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.css", true));
                     bundle.AddFiles(new BundleFile("/_content/OOS.OgrenciOtomasyonSistemi.Core/css/component.css", true));
                 }
             );

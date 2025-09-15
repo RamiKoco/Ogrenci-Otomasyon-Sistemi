@@ -371,18 +371,13 @@ var abp = abp || {};
         };
 
         var _loadScript = function (url, loadCallback, failCallback) {
-            var nonce = document.body.nonce || document.body.getAttribute('nonce');
             _loadFromUrl(url, loadCallback, failCallback, function (urlInfo) {
                 $.get({
                     url: url,
                     dataType: 'text'
                 })
                 .done(function (script) {
-                    if(nonce){
-                        $.globalEval(script, { nonce: nonce});
-                    }else{
-                        $.globalEval(script);
-                    }
+                    $.globalEval(script);
                     urlInfo.succeed();
                 })
                 .fail(function () {
