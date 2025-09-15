@@ -35,7 +35,7 @@
                 <DxGridLayoutItem Column="4" ColumnSpan="3" Row="1" RowSpan="5">
                     <Template>                      
 
-                        <Image Class="@CssClass"
+                        <Image
                                Background="Background.Secondary"
                                Border="Border.Secondary"
                                Source="@Service.DataSource.Image"
@@ -118,15 +118,15 @@
                 </DevMemoEdit>
 
 
-                <DxGridLayoutItem CssClass="@CssClass1"
+                <DxGridLayoutItem
                                   Column="2"
                                   ColumnSpan="6"
                                   Row="9">
-                    <Template>
+              @*       <Template>
                         <DxButton CssClass="bg-primary" Text="Ek Bilgiler" Click="ShowEkBilgiler" />
                         <DxButton CssClass="bg-primary" Text="İletişim Bilgileri" Click="ShowAddress" />
                         <DxButton CssClass="bg-primary" Text="Diğer" Click="ShowOther" />
-                    </Template>
+                    </Template> *@
                 </DxGridLayoutItem>
 
                 @*-----------------Ek Bilgiler-----------------*@
@@ -155,7 +155,7 @@
                                      @bind-Value="@Service.DataSource.Cinsiyet"
                                      ValueFieldName="@nameof(ComboBoxEnumItem<Cinsiyet>.Value)">
                 </DevComboBoxEnumEdit>
-                <DevTelEdit Caption="@L["Telephone1"]"
+                <DevTelEdit Caption="@L["Telephone"]"
                             ColumnIndex="2"
                             NullText="@L["EnterTelephone"]"
                             RowIndex="14"
@@ -208,8 +208,7 @@
               
              
              
-                <DxGridLayoutItem CssClass="@CssClass1"
-                                  Column="2"
+                <DxGridLayoutItem Column="2"
                                   ColumnSpan="5"
                                   Row="18">
                 </DxGridLayoutItem>
@@ -227,63 +226,10 @@
     [Parameter] public bool IsHayati { get; set; } = false;
     [Parameter] public bool Other { get; set; } = false;
     [Parameter] public DateTime DateTime { get; set; } = DateTime.Now;
-    private void ShowEkBilgiler()
-    {
-        Address = false;
-        EkBilgiler = true;
-        Education = false;
-        Iletisim = false;
-        IsHayati = false;
-        Other = false;
-    }
-    private void ShowEducation()
-    {
-        Address = false;
-        EkBilgiler = false;
-        Education = true;
-        Iletisim = false;
-        IsHayati = false;
-        Other = false;
-    }
-    private void ShowIletisim()
-    {
-        Address = false;
-        Education = false;
-        EkBilgiler = false;
-        Iletisim = true;
-        IsHayati = false;
-        Other = false;
-    }
-    private void ShowAddress()
-    {
-        Address = true;
-        Education = false;
-        EkBilgiler = false;
-        Iletisim = false;
-        IsHayati = false;
-        Other = false;
-    }
-    private void ShowIsHayati()
-    {
-        IsHayati = true;
-        Education = false;
-        Address = false;
-        EkBilgiler = false;
-        Iletisim = false;
-        Other = false;
-    }
-    private void ShowOther()
-    {
-        IsHayati = false;
-        Education = false;
-        Address = false;
-        EkBilgiler = false;
-        Iletisim = false;
-        Other = true;
-    }
+ 
     [Parameter] public EventCallback NewButtonClick { get; set; }
-    [Parameter] public string CssClass { get; set; } = "float-end";
-    [Parameter] public string CssClass1 { get; set; } = "bg-primary";
+    // [Parameter] public string CssClass { get; set; } = "float-end";
+    // [Parameter] public string CssClass1 { get; set; } 
 
     private long maxFileSize = 1024 * 1024 * 16; // 16MB
     private int maxAllowedFiles = 3;
@@ -329,16 +275,12 @@
                     counter++;
                 }
 
-                // Dosyayı kaydet
-                // await using FileStream fs = new(path, FileMode.Create);
-                // await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
-
-                // Dosyayı optimize et ve kaydet
+             
                 using var image = await SixLabors.ImageSharp.Image.LoadAsync(file.OpenReadStream(maxFileSize));
                 image.Metadata.ExifProfile = null; // Gereksiz meta verileri temizle
                 await SaveOptimizedImage(image, path, extension);
 
-                // Yüklenen dosya adını listeye ekle
+           
                 uploadedFiles.Add(newFileName);
             }
             catch (Exception ex)

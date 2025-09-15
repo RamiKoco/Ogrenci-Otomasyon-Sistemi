@@ -38,18 +38,12 @@
             <DxGridLayoutItem Area="content" CssClass="content px-4 layout-item">
                 <Template>
                     @Body
-                    <OOS.OgrenciOtomasyonSistemi.Blazor.Components.Pages.Abp.UiMessageAlert/>                 
+                  @*   <OOS.OgrenciOtomasyonSistemi.Blazor.Components.Pages.Abp.UiMessageAlert/>    *@              
                 </Template>
             </DxGridLayoutItem>
 
-            <DxGridLayoutItem Area="footer" CssClass="footerCssClass">
-                <Template>
-                    <h4 style="color:white;text-align: center; font-weight:bold">
-                          ©2025 @* || © @(DateTime.Now.Day).@(DateTime.Now.Month).@(DateTime.Now.Year)  *@ 
-                    </h4>
-                  
-                                      
-                </Template>
+            <DxGridLayoutItem Area="footer">
+                <Template />
             </DxGridLayoutItem>
           
         </Items>
@@ -106,9 +100,9 @@
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
 }
-<style>
+@* <style>
     .footerCssClass {
         background-color: #4D4D4D; /* Tüm footer için*/
         color: white;
     }
-</style>
+</style> *@
