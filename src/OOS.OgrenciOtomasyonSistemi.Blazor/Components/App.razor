@@ -1,8 +1,10 @@
-﻿@using Volo.Abp.Localization
+﻿@using OOS.OgrenciOtomasyonSistemi.Blazor.Shared
+@using Volo.Abp.Localization
 @using System.Globalization
 @using Microsoft.Extensions.Hosting
 @using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme.Bundling
 @using Volo.Abp.AspNetCore.Components.Web.Theming.Bundling
+
 @inject IHostEnvironment Env
 @{
     var rtl = CultureHelper.IsRtl ? "rtl" : string.Empty;
@@ -24,8 +26,8 @@
 </head>
 <body>
 
-    <Routes @rendermode="InteractiveServer" />
-
+    <Routes @rendermode="InteractiveServer" />     
+    @*     <MainLayout /> *@
     <AbpScripts BundleName="@BlazorLeptonXLiteThemeBundles.Scripts.Global" />
 
     <script src="_framework/blazor.web.js"></script>
