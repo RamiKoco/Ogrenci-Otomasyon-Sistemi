@@ -126,6 +126,8 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
         ConfigureSwaggerServices(context.Services);
         ConfigureAutoApiControllers();
         ConfigureBlazorise(context);
+        ConfigureDevExpress(context);
+        ConfigureDevExpressReport(context);
         ConfigureRouter(context);
         ConfigureMenu(context);
     }
@@ -166,9 +168,15 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
                 BlazorLeptonXLiteThemeBundles.Styles.Global,
                 bundle =>
                 {
-                    bundle.AddFiles("/blazor-global-styles.css");
-                    //You can remove the following line if you don't use Blazor CSS isolation for components
                     bundle.AddFiles(new BundleFile("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css", true));
+
+                    bundle.AddFiles(new BundleFile("/css/site.css",true));
+                    bundle.AddFiles(new BundleFile("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css", true));
+                    bundle.AddFiles(new BundleFile("/blazor-global-styles.css"));
+                    bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css", true));
+                    bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css", true));
+                    bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.css", true));
+                    bundle.AddFiles(new BundleFile("/_content/OOS.OgrenciOtomasyonSistemi.Core/css/component.css", true));
                 }
             );
         });
@@ -231,7 +239,6 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
             options.ConventionalControllers.Create(typeof(OgrenciOtomasyonSistemiApplicationModule).Assembly);
         });
     }
-
     private void ConfigureAutoMapper()
     {
         Configure<AbpAutoMapperOptions>(options =>
@@ -240,6 +247,19 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
         });
     }
 
+    private void ConfigureDevExpress(ServiceConfigurationContext context)
+    {
+        context.Services.AddDevExpressBlazor();
+        context.Services.Configure<GlobalOptions>(options =>
+        {
+            options.BootstrapVersion = BootstrapVersion.v5;
+        });
+    }
+
+    private void ConfigureDevExpressReport(ServiceConfigurationContext context)
+    {
+        context.Services.AddDevExpressServerSideBlazorReportViewer();
+    }
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var env = context.GetEnvironment();
