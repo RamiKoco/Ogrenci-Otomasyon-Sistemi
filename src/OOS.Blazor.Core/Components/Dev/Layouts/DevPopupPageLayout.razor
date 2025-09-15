@@ -90,7 +90,7 @@
     [Parameter] public EventCallback<PopupClosingEventArgs> Closing { get; set; }
     [Parameter] public bool CloseOnEscape { get; set; } = true;
     [Parameter] public bool CloseOnOutsideClick { get; set; }
-    [Parameter] public string HeaderCssClass { get; set; } = "bg-secondary text-white";
+    [Parameter] public string HeaderCssClass { get; set; } = "bg-success text-white";
     [Parameter] public string Height { get; set; }
     [Parameter] public HorizontalAlignment? HorizontalAlignment { get; set; }
     [Parameter] public string MaxHeight { get; set; }
@@ -116,7 +116,7 @@
 }
 <style>
     .headerCssClass {
-        background-color: #4D4D4D;
+        background-color: green;
         color: white;
     }
 </style>

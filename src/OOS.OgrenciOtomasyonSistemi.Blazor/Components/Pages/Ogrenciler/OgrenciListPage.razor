@@ -8,15 +8,15 @@
 @inject OgrenciAppService CrudService
 @inject OgrenciService Service
 
-<DevListPageLayout DataGridService="Service"
+<DevListPageLayout DataGridService="Service" 
                    ListPageService="Service"
                    Caption="@L["StudentCards"]"
                    RowHeights="@RowHeights("*")">
-    <ListPageContext>
-        <DevDataGrid DataGridService="Service" 
+    <ListPageContext >
+        <DevDataGrid DataGridService="Service"  
                      DoubleClick="async ()=> await BeforeUpdateAsync()">
-            <HeaderTemplate>
-                <DevListPageToolbar CommonService="Service"
+            <HeaderTemplate >
+                <DevListPageToolbar CommonService="Service" 
                                     DataGridService="Service"
                                     ListPageService="Service"
                                     DeleteButtonClick="async ()=> await DeleteAsync()"
@@ -34,8 +34,8 @@
                 </DevListPageToolbar>
             </HeaderTemplate>
 
-            <Columns>
-                <DxDataGridColumn Caption="@L["Code"]"
+            <Columns >
+                <DxDataGridColumn Caption="@L["Code"]" 
                                   Field="@nameof(ListOgrenciDto.Kod)"
                                   Width="150px" />
 

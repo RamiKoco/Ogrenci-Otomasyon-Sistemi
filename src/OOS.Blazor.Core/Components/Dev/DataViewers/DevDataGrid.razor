@@ -1,7 +1,7 @@
 ﻿@inherits DevBaseViewer
 @typeparam TDataGridItem
 
-<DxGridLayoutItem Column="ColumnIndex" CssClass="bg-info"
+<DxGridLayoutItem Column="ColumnIndex"
                   ColumnSpan="ColumnSpan"
                   Row="RowIndex"
                   RowSpan="RowSpan" 
@@ -28,7 +28,7 @@
                     @bind-SingleSelectedDataRow="DataGridService.SelectedItem"
                     VerticalScrollableHeight="VerticalScrollableHeight"
                     VerticalScrollBarMode="VerticalScrollBarMode"
-                    @ondblclick="DoubleClick" CssClass="bg-info">
+                    @ondblclick="DoubleClick">
 
             <HeaderTemplate>
                 @HeaderTemplate
