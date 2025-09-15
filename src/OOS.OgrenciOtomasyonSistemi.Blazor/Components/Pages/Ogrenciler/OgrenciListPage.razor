@@ -13,7 +13,7 @@
                    Caption="@L["StudentCards"]"
                    RowHeights="@RowHeights("*")">
     <ListPageContext>
-        <DevDataGrid DataGridService="Service"
+        <DevDataGrid DataGridService="Service" 
                      DoubleClick="async ()=> await BeforeUpdateAsync()">
             <HeaderTemplate>
                 <DevListPageToolbar CommonService="Service"
