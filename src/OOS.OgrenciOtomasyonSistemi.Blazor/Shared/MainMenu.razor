@@ -135,19 +135,8 @@
                         <DxMenuItem CssClass="@CssClass"
                                     Click="()=> AppService.ShowSubeDonemEditPage = true"
                                     Position="ItemPosition.End"
-                                    BeginGroup="true">
-                @*             <TextTemplate>
-                                <i class="far fa-building pe-2" />
-                                @AppService.FirmaParametre.SubeAdi
-
-                                <i class="ps-3 fas fa-minus pe-3" />
-
-                                <i class="fas fa-calendar-alt pe-2" />
-                                @AppService.FirmaParametre.DonemAdi
-                            </TextTemplate> *@
+                                    BeginGroup="true">        
                         </DxMenuItem>
-
-
                     </Authorized>
                 </AuthorizeView>
 
@@ -158,17 +147,6 @@
         </DxMenu>
     </div>
 </div>
-
-
-@* @if (AppService.ShowFirmaParametreEditPage)
-{
-    <FirmaParametreEditPage />
-}
-
-@if (AppService.ShowSubeDonemEditPage)
-{
-    <SubeDonemSecimEditPage />
-} *@
 
 @code {
     [Parameter] public string CssClass { get; set; } = "cssClass";
@@ -202,7 +180,7 @@
         _ayar = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Ayar.Default);
     }
 }
-@* <style>
+<style>
     .cssClass {
         border: 0.5px groove white;
         background-color: #4D4D4D;
@@ -220,4 +198,4 @@
         background-color: #ffffcc;
         color: #0066ff;
     }
-</style> *@
+</style>

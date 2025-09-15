@@ -72,7 +72,7 @@ public partial class UiMessageAlert : ComponentBase, IDisposable
     [Parameter] public EventCallback Confirmed { get; set; }
 
     [Parameter] public EventCallback Canceled { get; set; }
-    public string HeaderCssClass { get; set; } = "bg-primary text-white";
+    public string HeaderCssClass { get; set; } = "bg-info text-white";
 
     public ButtonRenderStyle SelectButtonRenderStyle { get; set; }
            = ButtonRenderStyle.Secondary;
