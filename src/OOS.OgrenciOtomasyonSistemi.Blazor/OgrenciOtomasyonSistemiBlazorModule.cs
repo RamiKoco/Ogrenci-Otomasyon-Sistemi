@@ -134,11 +134,11 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
                 bundle =>
                 {
                     //bundle.AddFiles(new BundleFile("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css", true));
-
-                    bundle.AddFiles(new BundleFile("/css/site.css", true));
+                   
+                    bundle.AddFiles("/css/site.css");
                     bundle.AddFiles("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css");
-                    bundle.AddFiles(new BundleFile("/blazor-global-styles.css"));
-                    bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css", true));
+                    bundle.AddFiles("/blazor-global-styles.css");
+                    bundle.AddFiles("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css");
                     bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css", true));
                     bundle.AddFiles(new BundleFile("/_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.css", true));
                     bundle.AddFiles("/_content/OOS.Blazor.Core/css/component.css");
