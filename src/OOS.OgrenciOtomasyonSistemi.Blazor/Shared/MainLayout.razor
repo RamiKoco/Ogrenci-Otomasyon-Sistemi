@@ -37,8 +37,8 @@
             </DxGridLayoutItem>
             <DxGridLayoutItem Area="content" CssClass="content px-4 layout-item">
                 <Template>
-                    @Body
-                  @*   <OOS.OgrenciOtomasyonSistemi.Blazor.Components.Pages.Abp.UiMessageAlert/>    *@              
+                    @Body                   
+                    <UiMessageAlert />
                 </Template>
             </DxGridLayoutItem>
 
@@ -100,9 +100,9 @@
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
 }
-@* <style>
+<style>
     .footerCssClass {
-        background-color: #4D4D4D; /* Tüm footer için*/
+        background-color: white; /* Tüm footer için*/
         color: white;
     }
-</style> *@
+</style>

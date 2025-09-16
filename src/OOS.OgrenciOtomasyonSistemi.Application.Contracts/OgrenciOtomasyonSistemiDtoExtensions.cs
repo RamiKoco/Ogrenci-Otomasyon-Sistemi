@@ -1,9 +1,5 @@
-﻿using Volo.Abp.Identity;
-using Volo.Abp.ObjectExtending;
-using Volo.Abp.Threading;
-
+﻿
 namespace OOS.OgrenciOtomasyonSistemi;
-
 public static class OgrenciOtomasyonSistemiDtoExtensions
 {
     private static readonly OneTimeRunner OneTimeRunner = new OneTimeRunner();

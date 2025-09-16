@@ -1,0 +1,34 @@
+﻿@using OOS.OgrenciOtomasyonSistemi.Blazor.Shared
+@using Volo.Abp.Localization
+@using System.Globalization
+@using Microsoft.Extensions.Hosting
+@using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme.Bundling
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Bundling
+
+@inject IHostEnvironment Env
+@{
+    var rtl = CultureHelper.IsRtl ? "rtl" : string.Empty;
+}
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentCulture.Name" dir="@rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OOS.OgrenciOtomasyonSistemi.Blazor</title>
+    <base href="/" />
+
+    <AbpStyles BundleName="@BlazorLeptonXLiteThemeBundles.Styles.Global" />
+
+    <HeadOutlet @rendermode="InteractiveServer" />
+
+</head>
+<body>
+
+    <Routes @rendermode="InteractiveServer" />     
+
+    <AbpScripts BundleName="@BlazorLeptonXLiteThemeBundles.Scripts.Global" />
+    <script src="_framework/blazor.web.js"></script>   
+</body>
+</html>

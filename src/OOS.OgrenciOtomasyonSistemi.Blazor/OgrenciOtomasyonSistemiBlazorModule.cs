@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using OOS.OgrenciOtomasyonSistemi.Blazor.Components;
 using OpenIddict.Validation.AspNetCore;
 using Volo.Abp.AspNetCore.Components.Web;
 using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme;
@@ -25,7 +24,7 @@ namespace OOS.OgrenciOtomasyonSistemi.Blazor;
     typeof(AbpIdentityBlazorServerModule),
     typeof(AbpTenantManagementBlazorServerModule),
     typeof(AbpSettingManagementBlazorServerModule)
-   )]
+   )]  
 public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -134,7 +133,7 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
                 bundle =>
                 {
                     //bundle.AddFiles(new BundleFile("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css", true));
-                   
+
                     bundle.AddFiles("/css/site.css");
                     bundle.AddFiles("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css");
                     bundle.AddFiles("/blazor-global-styles.css");

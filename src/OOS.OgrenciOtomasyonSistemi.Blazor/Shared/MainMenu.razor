@@ -3,11 +3,11 @@
 @inject AppService AppService
 @inject NavigationManager NavigationManager
 @inject IAuthorizationService AuthorizationService
-
+@* 
 <div class="card">
-    <div class="accordion-body">
+   <div class="accordion-body"> *@
 
-        <DxMenu CssClass="@CssClass1"
+        <DxMenu CssClass="@ogrenciotomasyonsistemi"
                 Title="@($" {L["OgrenciOtomasyonSistemi"]}")"
         ItemsPosition="ItemPosition.Start"
         CollapseItemsToHamburgerMenu="true">
@@ -131,12 +131,6 @@
                             </DxMenuItem>
                         }
 
-
-                        <DxMenuItem CssClass="@CssClass"
-                                    Click="()=> AppService.ShowSubeDonemEditPage = true"
-                                    Position="ItemPosition.End"
-                                    BeginGroup="true">        
-                        </DxMenuItem>
                     </Authorized>
                 </AuthorizeView>
 
@@ -145,12 +139,12 @@
             </Items>
 
         </DxMenu>
-    </div>
+    @* </div> 
 </div>
-
+*@
 @code {
     [Parameter] public string CssClass { get; set; } = "cssClass";
-    [Parameter] public string CssClass1 { get; set; } = "cssClass1";
+    [Parameter] public string ogrenciotomasyonsistemi { get; set; } = "ogrenciotomasyonsistemi";
     [Parameter] public string IconCssClass { get; set; } = "iconCssClass";
     protected override void OnInitialized()
     {
@@ -188,7 +182,7 @@
         /*  MainMenu Backgroun-color && text-color */
     }
 
-    .cssClass1 {
+    .ogrenciotomasyonsistemi {
         background-color: #4D4D4D;
         color: #FFD133;
         /*  MainMenu Backgroun-color && text-color */
