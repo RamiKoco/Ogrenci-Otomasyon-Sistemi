@@ -1,13 +1,14 @@
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OpenIddict.Validation.AspNetCore;
-using Volo.Abp.AspNetCore.Components.Web;
 using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme;
 using Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme.Bundling;
+using Volo.Abp.AspNetCore.Components.Web;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
-using Volo.Abp.Security.Claims;
 using Volo.Abp.OpenIddict;
+using Volo.Abp.Security.Claims;
 
 namespace OOS.OgrenciOtomasyonSistemi.Blazor;
 
@@ -134,13 +135,18 @@ public class OgrenciOtomasyonSistemiBlazorModule : AbpModule
                 {
                     //bundle.AddFiles(new BundleFile("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css", true));
 
-                    bundle.AddFiles("/css/site.css");
-                    bundle.AddFiles("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css");
+
+                    bundle.AddFiles(new BundleFile("/OOS.OgrenciOtomasyonSistemi.Blazor.styles.css", true));
                     bundle.AddFiles("/blazor-global-styles.css");
                     bundle.AddFiles("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.min.css");
                     bundle.AddFiles("/_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css");
-                    bundle.AddFiles("/_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.css");
-                    bundle.AddFiles("/_content/OOS.Blazor.Core/css/component.css");
+                    //bundle.AddFiles("/_content/DevExpress.Blazor.Reporting.Viewer/css/dx-blazor-reporting-components.css");
+
+
+                    // 🔥 Custom CSS’i en sona al
+                    bundle.AddFiles(new BundleFile("/_content/OOS.Blazor.Core/css/component.css", true));
+                    bundle.AddFiles(new BundleFile("/css/site.css", true));
+
                 }
             );
         });
