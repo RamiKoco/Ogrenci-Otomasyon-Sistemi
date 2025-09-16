@@ -1,12 +1,28 @@
-/* Getting-Started */
-.card-bg-image {
-    position: absolute;
-    width: 630px;
-    height: auto;
-    bottom: 0;
-    right: 0;
-    z-index: 1;
+﻿#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
-/* Getting-Started End */
 
-/* Write here your styles for the Index page */
+.text {
+    padding: 20px;
+    text-align: center;
+}
+
+h4 {
+    margin: 0;
+    text-shadow: 1px 1px 3px #333;
+    font-family: monospace, arial, helvetica;
+}
+
+h6 {
+    letter-spacing: 2px;
+    line-height: 38px;
+    font-family: monospace, arial, helvetica;
+}
+
+.body {
+    background-color: lightgoldenrodyellow;
+}

@@ -12,7 +12,8 @@ public class OgrenciAppService : OgrenciOtomasyonSistemiAppService, IOgrenciAppS
     }
     public virtual async Task<SelectOgrenciDto> GetAsync(Guid id)
     {
-        var entity = await _ogrenciRepository.GetAsync(id, x => x.Id == id);
+        var entity = await _ogrenciRepository.GetAsync(id, x => x.Id == id, x => x.OzelKod1,
+            x => x.OzelKod2);
 
         return ObjectMapper.Map<Ogrenci, SelectOgrenciDto>(entity);
 
@@ -23,7 +24,9 @@ public class OgrenciAppService : OgrenciOtomasyonSistemiAppService, IOgrenciAppS
         var entities = await _ogrenciRepository.GetPagedListAsync(input.SkipCount,
             input.MaxResultCount,
              x => x.Durum == input.Durum,
-             x => x.Kod);
+             x => x.Kod,
+             x => x.OzelKod1,
+             x => x.OzelKod2);
 
         var totalCount = await _ogrenciRepository.CountAsync(x => x.Durum == input.Durum);
 
@@ -34,7 +37,8 @@ public class OgrenciAppService : OgrenciOtomasyonSistemiAppService, IOgrenciAppS
     [Authorize(OgrenciOtomasyonSistemiPermissions.Ogrenci.Create)]
     public virtual async Task<SelectOgrenciDto> CreateAsync(CreateOgrenciDto input)
     {
-        await _ogrenciManager.CheckCreateAsync(input.Kod);
+        await _ogrenciManager.CheckCreateAsync(input.Kod, input.OzelKod1Id,
+            input.OzelKod2Id);
 
         var entity = ObjectMapper.Map<CreateOgrenciDto, Ogrenci>(input);
         await _ogrenciRepository.InsertAsync(entity);
@@ -45,7 +49,8 @@ public class OgrenciAppService : OgrenciOtomasyonSistemiAppService, IOgrenciAppS
     {
         var entity = await _ogrenciRepository.GetAsync(id, x => x.Id == id);
 
-        await _ogrenciManager.CheckUpdateAsync(id, input.Kod, entity);
+        await _ogrenciManager.CheckUpdateAsync(id, input.Kod, entity, input.OzelKod1Id,
+            input.OzelKod2Id);
 
         var mappedEntity = ObjectMapper.Map(input, entity);
         await _ogrenciRepository.UpdateAsync(mappedEntity);
@@ -56,7 +61,6 @@ public class OgrenciAppService : OgrenciOtomasyonSistemiAppService, IOgrenciAppS
     {
         await _ogrenciRepository.DeleteAsync(id);
     }
-
     public virtual async Task<string> GetCodeAsync(CodeParameterDto input)
     {
         return await _ogrenciRepository.GetCodeAsync(x => x.Kod, x => x.Durum == input.Durum);

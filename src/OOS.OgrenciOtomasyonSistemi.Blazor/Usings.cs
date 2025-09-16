@@ -75,5 +75,5 @@ global using OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 global using OOS.OgrenciOtomasyonSistemi.Localization;
 global using OOS.OgrenciOtomasyonSistemi.MultiTenancy;
 global using OOS.OgrenciOtomasyonSistemi.Services;
-global using OOS.OgrenciOtomasyonSistemi.Blazor;
+global using OOS.OgrenciOtomasyonSistemi.OzelKodlar;
 

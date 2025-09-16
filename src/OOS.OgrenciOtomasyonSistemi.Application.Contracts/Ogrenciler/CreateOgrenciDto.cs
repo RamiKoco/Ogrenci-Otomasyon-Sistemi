@@ -15,6 +15,8 @@ public class CreateOgrenciDto : IEntityDto
     public string Email { get; set; }
     public DateTime DogumTarihi { get; set; }
     public string DogumYeri { get; set; }
+    public Guid? OzelKod1Id { get; set; }
+    public Guid? OzelKod2Id { get; set; }
     public Cinsiyet Cinsiyet { get; set; }
     public KanGrubu KanGrubu { get; set; } 
     public string Aciklama { get; set; }

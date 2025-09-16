@@ -1,9 +1,5 @@
-﻿using OOS.OgrenciOtomasyonSistemi.Localization;
-using Volo.Abp.Authorization.Permissions;
-using Volo.Abp.Localization;
-
+﻿
 namespace OOS.OgrenciOtomasyonSistemi.Permissions;
-
 public class OgrenciOtomasyonSistemiPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
@@ -27,6 +23,17 @@ public class OgrenciOtomasyonSistemiPermissionDefinitionProvider : PermissionDef
             L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ogrenci)}{OgrenciOtomasyonSistemiPermissions.UpdateConst}"));
         ogrenci.AddChild(OgrenciOtomasyonSistemiPermissions.Ogrenci.Delete,
             L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ogrenci)}{OgrenciOtomasyonSistemiPermissions.DeleteConst}"));
+
+        //ozelKod
+        var ozelKod = mainGroup.AddPermission(OgrenciOtomasyonSistemiPermissions.OzelKod.Default,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.OzelKod)}"));
+
+        ozelKod.AddChild(OgrenciOtomasyonSistemiPermissions.OzelKod.Create,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.OzelKod)}{OgrenciOtomasyonSistemiPermissions.CreateConst}"));
+        ozelKod.AddChild(OgrenciOtomasyonSistemiPermissions.OzelKod.Update,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.OzelKod)}{OgrenciOtomasyonSistemiPermissions.UpdateConst}"));
+        ozelKod.AddChild(OgrenciOtomasyonSistemiPermissions.OzelKod.Delete,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.OzelKod)}{OgrenciOtomasyonSistemiPermissions.DeleteConst}"));
     }
 
     private static LocalizableString L(string name)

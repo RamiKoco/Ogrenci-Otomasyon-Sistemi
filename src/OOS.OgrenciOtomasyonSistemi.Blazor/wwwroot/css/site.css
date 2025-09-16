@@ -39,3 +39,15 @@ html, body {
     right: 0.75rem;
     top: 0.5rem;
 }
+.dxgvSelectedRow > td {
+    background-color: #6a1b9a !important; /* mor arka plan */
+    color: #ffffff !important; /* beyaz yazý */
+}
+.dxgvFocusedRow > td {
+    background-color: #8e24aa !important;
+    color: #ffffff !important;
+}
+.dxbl-grid .dxbl-grid-selected-row {
+    background-color: #6a1b9a !important;
+    color: white !important;
+}

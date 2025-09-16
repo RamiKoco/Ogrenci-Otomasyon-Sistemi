@@ -23,6 +23,22 @@ public static class EntityAsyncExtensions
                 throw new EntityNotFoundException(typeof(TEntity), id);
         }
     }
+
+    public static async Task EntityAnyAsync(
+        this IReadOnlyRepository<OzelKod> repository, Guid? id, OzelKodTuru kodTuru,
+        KartTuru kartTuru, bool check = true)
+    {
+        if (check && id != null)
+        {
+            var anyAsync = await repository.AnyAsync(x => x.Id == id &&
+                                                          x.KodTuru == kodTuru &&
+                                                          x.KartTuru == kartTuru);
+
+            if (!anyAsync)
+                throw new EntityNotFoundException(typeof(OzelKod), id);
+        }
+    }
+
     public static async Task RelationalEntityAnyAsync<TEntity>(this IReadOnlyRepository<TEntity> repository,
         Expression<Func<TEntity, bool>> predicate)
         where TEntity : class, IEntity

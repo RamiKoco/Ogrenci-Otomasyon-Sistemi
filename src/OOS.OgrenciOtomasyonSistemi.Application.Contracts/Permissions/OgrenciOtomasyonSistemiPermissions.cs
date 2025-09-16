@@ -23,4 +23,11 @@ public static class OgrenciOtomasyonSistemiPermissions
         public const string Update = Default + UpdateConst;
         public const string Delete = Default + DeleteConst;
     }
+    public static class OzelKod
+    {
+        public const string Default = $"{GroupName}.{nameof(OzelKod)}";
+        public const string Create = Default + CreateConst;
+        public const string Update = Default + UpdateConst;
+        public const string Delete = Default + DeleteConst;
+    }
 }

@@ -1,4 +1,5 @@
-﻿namespace OOS.OgrenciOtomasyonSistemi.Ogrenciler;
+﻿
+namespace OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 public class Ogrenci : FullAuditedAggregateRoot<Guid>
 {
     public string Kod { get; set; }
@@ -19,6 +20,9 @@ public class Ogrenci : FullAuditedAggregateRoot<Guid>
     public KanGrubu KanGrubu { get; set; }
     public Cinsiyet Cinsiyet { get; set; }
     public string Aciklama { get; set; }   
-    public bool Durum { get; set; } 
+    public bool Durum { get; set; }
+
+    public OzelKod OzelKod1 { get; set; }
+    public OzelKod OzelKod2 { get; set; }
 
 }

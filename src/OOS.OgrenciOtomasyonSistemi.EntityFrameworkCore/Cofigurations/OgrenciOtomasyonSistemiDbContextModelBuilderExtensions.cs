@@ -2,7 +2,6 @@
 namespace OOS.OgrenciOtomasyonSistemi.Cofigurations;
 public static class OgrenciOtomasyonSistemiDbContextModelBuilderExtensions
 {
-
     public static void ConfigureOgrenci(this ModelBuilder builder)
     {
         builder.Entity<Ogrenci>(b =>
@@ -79,9 +78,7 @@ public static class OgrenciOtomasyonSistemiDbContextModelBuilderExtensions
             b.Property(x => x.Aciklama)
                 .HasColumnType("varchar")
                 .HasMaxLength(EntityConsts.MaxAciklamaLength);
-
-            //b.Property(x => x.Durum)
-            //    .HasColumnType(SqlDbType.Bit.ToString());
+            
             b.Property(x => x.Durum)
                 .HasColumnType("boolean");
 
@@ -89,8 +86,56 @@ public static class OgrenciOtomasyonSistemiDbContextModelBuilderExtensions
             b.HasIndex(x => x.Kod);
 
             //relations    
-          
+            b.HasOne(x => x.OzelKod1)
+           .WithMany(x => x.OzelKod1Ogrenciler)
+           .OnDelete(DeleteBehavior.NoAction);
+
+            b.HasOne(x => x.OzelKod2)
+                .WithMany(x => x.OzelKod2Ogrenciler)
+                .OnDelete(DeleteBehavior.NoAction);
         });
     }
- 
+
+    public static void ConfigureOzelKod(this ModelBuilder builder)
+    {
+        builder.Entity<OzelKod>(b =>
+        {
+            b.ToTable(OgrenciOtomasyonSistemiConsts.DbTablePrefix + "OzelKodlar", OgrenciOtomasyonSistemiConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            //properties
+            b.Property(x => x.Kod)
+             .IsRequired()
+            .HasColumnType("varchar")
+            .HasMaxLength(EntityConsts.MaxKodLength);
+
+            b.Property(x => x.Ad)
+                .IsRequired()
+                .HasColumnType("varchar")
+                .HasMaxLength(EntityConsts.MaxAdLength);          
+
+            b.Property(x => x.KodTuru)
+                .IsRequired()
+                .HasColumnType("smallint");
+
+            b.Property(x => x.KartTuru)
+                .IsRequired()
+                .HasColumnType("smallint");
+
+            b.Property(x => x.Aciklama)
+                .HasColumnType("varchar")
+                .HasMaxLength(EntityConsts.MaxAciklamaLength);
+
+            b.Property(x => x.Durum)
+                .HasColumnType("boolean");
+
+            //indexs
+            b.HasIndex(x => x.Kod);
+
+            //relations
+
+
+        });
+    }
+
 }

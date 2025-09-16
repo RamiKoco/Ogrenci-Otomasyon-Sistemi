@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
-
+﻿
 namespace OOS.OgrenciOtomasyonSistemi.Commons;
-
 public class EfCoreCommonNoKeyRepository<TEntity> : EfCoreRepository<OgrenciOtomasyonSistemiDbContext, TEntity>,
     ICommonNoKeyRepository<TEntity> where TEntity : class, IEntity
 {

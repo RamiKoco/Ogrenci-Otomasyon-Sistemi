@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
-
+﻿
 namespace OOS.OgrenciOtomasyonSistemi.Commons;
-
 public class EfCoreCommonRepository<TEntity> : EfCoreRepository<OgrenciOtomasyonSistemiDbContext, TEntity, Guid>,
     ICommonRepository<TEntity> where TEntity : class, IEntity<Guid>
 {

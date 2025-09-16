@@ -19,10 +19,15 @@ global using Volo.Abp.TenantManagement.EntityFrameworkCore;
 global using OOS.OgrenciOtomasyonSistemi.Cofigurations;
 global using OOS.OgrenciOtomasyonSistemi.EntityFrameworkCore;
 global using OOS.OgrenciOtomasyonSistemi.Commons;
-//global using OOS.OgrenciOtomasyonSistemi.Donemler;
+global using OOS.OgrenciOtomasyonSistemi.OzelKodlar;
 global using OOS.OgrenciOtomasyonSistemi.Consts;
 //global using OOS.OgrenciOtomasyonSistemi.Parametreler;
 global using OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 //global using OOS.OgrenciOtomasyonSistemi.Images;
 //global using OOS.OgrenciOtomasyonSistemi.Subeler;
 
+global using System;
+global using System.Collections.Generic;
+global using System.Linq.Expressions;
+global using Volo.Abp.Domain.Entities;
+global using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
