@@ -1,6 +1,4 @@
 ﻿
-using FluentValidation;
-
 namespace OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 public class UpdateOgrenciDtoValidator : AbstractValidator<UpdateOgrenciDto>
 {

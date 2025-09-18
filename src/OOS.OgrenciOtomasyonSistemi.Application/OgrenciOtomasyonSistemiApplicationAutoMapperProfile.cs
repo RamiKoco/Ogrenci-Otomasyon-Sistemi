@@ -1,4 +1,6 @@
 ﻿
+using OOS.OgrenciOtomasyonSistemi.Okullar;
+
 namespace OOS.OgrenciOtomasyonSistemi;
 public class OgrenciOtomasyonSistemiApplicationAutoMapperProfile : Profile
 {
@@ -17,6 +19,20 @@ public class OgrenciOtomasyonSistemiApplicationAutoMapperProfile : Profile
         CreateMap<UpdateOgrenciDto, Ogrenci>();
         CreateMap<SelectOgrenciDto, CreateOgrenciDto>();
         CreateMap<SelectOgrenciDto, UpdateOgrenciDto>();
+
+        //okul
+        CreateMap<Okul, SelectOkulDto>()
+             .ForMember(x => x.OzelKod1Adi, y => y.MapFrom(z => z.OzelKod1.Ad))
+             .ForMember(x => x.OzelKod2Adi, y => y.MapFrom(z => z.OzelKod2.Ad));
+
+        CreateMap<Okul, ListOkulDto>()
+             .ForMember(x => x.OzelKod1Adi, y => y.MapFrom(z => z.OzelKod1.Ad))
+             .ForMember(x => x.OzelKod2Adi, y => y.MapFrom(z => z.OzelKod2.Ad));
+
+        CreateMap<CreateOkulDto, Okul>();
+        CreateMap<UpdateOkulDto, Okul>();
+        CreateMap<SelectOkulDto, CreateOkulDto>();
+        CreateMap<SelectOkulDto, UpdateOkulDto>();
 
         //OzelKod
         CreateMap<OzelKod, SelectOzelKodDto>();

@@ -63,6 +63,7 @@ public class OgrenciOtomasyonSistemiDbContext :
 
         /* Configure your own tables/entities inside here */
         builder.ConfigureOgrenci();
+        builder.ConfigureOkul();
         builder.ConfigureOzelKod();
     }
 }

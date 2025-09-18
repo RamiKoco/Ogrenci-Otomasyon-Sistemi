@@ -29,10 +29,15 @@
 
     "Permission:Ayar": "Ayarlar",
 
-    "Permission:Ogrenci": "Bankalar",
+    "Permission:Ogrenci": "Öğrenciler",
     "Permission:Ogrenci.Create": "Oluşturma",
     "Permission:Ogrenci.Update": "Düzenleme",
     "Permission:Ogrenci.Delete": "Silme",
+
+    "Permission:Okul": "Okullar",
+    "Permission:Okul.Create": "Oluşturma",
+    "Permission:Okul.Update": "Düzenleme",
+    "Permission:Okul.Delete": "Silme",
 
     "Permission:Image": "Görseller",
     "Permission:Image.Create": "Oluşturma",
@@ -441,6 +446,9 @@
     "EnterGrossWeight": "Brüt Ağırlık Girin",
     "StudentCards": "Öğrenci Kartları",
     "StudentCard": "Öğrenci Kartı",
-    "studentcards": "öğrenci kartları"
+    "studentcards": "öğrenci kartları",
+    "SchoolCards": "Okul Kartları",
+    "SchoolCard": "Okul Kartı",
+    "schoolcards": "Okul kartları"
   }
 }

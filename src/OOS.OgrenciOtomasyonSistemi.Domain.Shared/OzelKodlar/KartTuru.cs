@@ -2,7 +2,7 @@
 
 public enum KartTuru
 {
-    Birim = 1,
+    Okul = 1,
     Stok = 2,
     Cari = 3,
     OzelKod = 4,
