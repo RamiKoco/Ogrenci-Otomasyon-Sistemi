@@ -24,7 +24,7 @@
     "Enum:KanGrubu:6": "AB Rh-",
     "Enum:KanGrubu:7": "0 Rh+",
     "Enum:KanGrubu:8": "0 Rh-",
-
+    "OgrenciOtomasyonSistemi": "Öğrenci Otomasyon Sistemi",
     "Permission:OgrenciOtomasyonSistemi": "Öğrenci Otomasyon Sistemi",
 
     "Permission:Ayar": "Ayarlar",
@@ -33,6 +33,11 @@
     "Permission:Ogrenci.Create": "Oluşturma",
     "Permission:Ogrenci.Update": "Düzenleme",
     "Permission:Ogrenci.Delete": "Silme",
+
+    "Permission:Ogretmen": "Öğretmenler",
+    "Permission:Ogretmen.Create": "Oluşturma",
+    "Permission:Ogretmen.Update": "Düzenleme",
+    "Permission:Ogretmen.Delete": "Silme",
 
     "Permission:Okul": "Okullar",
     "Permission:Okul.Create": "Oluşturma",
@@ -449,6 +454,9 @@
     "studentcards": "öğrenci kartları",
     "SchoolCards": "Okul Kartları",
     "SchoolCard": "Okul Kartı",
-    "schoolcards": "Okul kartları"
+    "schoolcards": "Okul kartları",
+    "TeacherCards": "Öğretmen Kartları",
+    "TeacherCard": "Öğretmen Kartı",
+    "teachercards": "Öğretmen kartları"
   }
 }

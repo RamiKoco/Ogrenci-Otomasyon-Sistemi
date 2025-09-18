@@ -46,6 +46,7 @@ global using OOS.OgrenciOtomasyonSistemi.MultiTenancy;
 global using OOS.OgrenciOtomasyonSistemi.Commons;
 global using OOS.OgrenciOtomasyonSistemi.Exceptions;
 global using OOS.OgrenciOtomasyonSistemi.OzelKodlar;
+global using OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 
 
 

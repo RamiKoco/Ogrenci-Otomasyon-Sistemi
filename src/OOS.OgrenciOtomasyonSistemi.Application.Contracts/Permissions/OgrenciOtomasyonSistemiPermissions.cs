@@ -23,6 +23,13 @@ public static class OgrenciOtomasyonSistemiPermissions
         public const string Update = Default + UpdateConst;
         public const string Delete = Default + DeleteConst;
     }
+    public static class Ogretmen
+    {
+        public const string Default = $"{GroupName}.{nameof(Ogretmen)}";
+        public const string Create = Default + CreateConst;
+        public const string Update = Default + UpdateConst;
+        public const string Delete = Default + DeleteConst;
+    }
     public static class Okul
     {
         public const string Default = $"{GroupName}.{nameof(Okul)}";

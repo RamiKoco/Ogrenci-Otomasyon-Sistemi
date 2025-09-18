@@ -24,6 +24,17 @@ public class OgrenciOtomasyonSistemiPermissionDefinitionProvider : PermissionDef
         ogrenci.AddChild(OgrenciOtomasyonSistemiPermissions.Ogrenci.Delete,
             L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ogrenci)}{OgrenciOtomasyonSistemiPermissions.DeleteConst}"));
 
+        //ogretmen
+        var ogretmen = mainGroup.AddPermission(OgrenciOtomasyonSistemiPermissions.Ogretmen.Default,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ogretmen)}"));
+
+        ogretmen.AddChild(OgrenciOtomasyonSistemiPermissions.Ogretmen.Create,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ogretmen)}{OgrenciOtomasyonSistemiPermissions.CreateConst}"));
+        ogretmen.AddChild(OgrenciOtomasyonSistemiPermissions.Ogretmen.Update,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ogretmen)}{OgrenciOtomasyonSistemiPermissions.UpdateConst}"));
+        ogretmen.AddChild(OgrenciOtomasyonSistemiPermissions.Ogretmen.Delete,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ogretmen)}{OgrenciOtomasyonSistemiPermissions.DeleteConst}"));
+
         //okul
         var okul = mainGroup.AddPermission(OgrenciOtomasyonSistemiPermissions.Okul.Default,
             L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Okul)}"));

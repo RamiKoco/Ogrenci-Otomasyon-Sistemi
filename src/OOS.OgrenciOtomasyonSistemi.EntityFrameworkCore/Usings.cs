@@ -25,7 +25,8 @@ global using OOS.OgrenciOtomasyonSistemi.Consts;
 global using OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 //global using OOS.OgrenciOtomasyonSistemi.Images;
 //global using OOS.OgrenciOtomasyonSistemi.Subeler;
-
+global using OOS.OgrenciOtomasyonSistemi.Ogretmenler;
+global using OOS.OgrenciOtomasyonSistemi.Okullar;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq.Expressions;

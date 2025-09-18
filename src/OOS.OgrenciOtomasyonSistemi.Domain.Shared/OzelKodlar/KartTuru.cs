@@ -3,7 +3,7 @@
 public enum KartTuru
 {
     Okul = 1,
-    Stok = 2,
+    Ogretmen = 2,
     Cari = 3,
     OzelKod = 4,
     Fatura = 5,

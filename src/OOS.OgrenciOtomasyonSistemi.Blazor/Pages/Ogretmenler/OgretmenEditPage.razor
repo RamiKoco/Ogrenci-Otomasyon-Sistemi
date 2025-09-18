@@ -1,0 +1,255 @@
+﻿@inherits BaseEditPage
+@inject IConfiguration config
+@inject IJSRuntime JS
+@inject OgretmenService Service
+@inject OzelKodService OzelKodService
+@inject IWebHostEnvironment Environment
+
+<DevPopupEditPageLayout CancelButtonText="@L["Cancel"]"
+                        EditPageService="Service"
+                        Caption="@L["TeacherCard"]"
+                        Height="440px"
+                        ListPageService="Service"
+                        OnSubmit="OnSubmit"
+                        SubmitButtonText="@L["Save"]"
+                        Width="790px">
+    <EditPageContent>
+        <DevGridLayout ColumnCount="7"
+                       ColumnWidths="@ColumnWidths("110", "2", "215", "35", "120", "2", "215", "25")"
+                       RowCount="9">
+            <GridLayoutItems>
+                <DevTextEdit Caption="@L["Code"]"
+                             ColumnIndex="2"
+                             NullText="@L["EnterCode"]"
+                             RowIndex="1"
+                             @bind-Value="@Service.DataSource.Kod">
+                </DevTextEdit>
+                <DevCheckEdit ColumnIndex="6"
+                              FalseCaption="@L["Passive"]"
+                              RowIndex="0"
+                              TrueCaption="@L["Active"]"
+                              @bind-Value="@Service.DataSource.Durum">
+                </DevCheckEdit>
+
+                <DxGridLayoutItem Column="4" ColumnSpan="3" Row="1" RowSpan="5">
+                    <Template>
+
+                        <Image Background="Background.Secondary"
+                               Border="Border.Secondary"
+                               Source="@Service.DataSource.Image"
+                               Text="@Service.DataSource.Ad"
+                               Display="Display.Block"
+                               Width="Width.Is50"
+                               Height="Height.Max100" />
+                    </Template>
+                </DxGridLayoutItem>
+
+                <DxGridLayoutItem Column="4"
+                                  ColumnSpan="3"
+                                  Row="6">
+                    <Template>
+                        <InputFile OnChange="@LoadFiles" class="form-control" multiple accept=".png,.jpg,.jpeg" />
+
+                        @if (errors.Count > 0)
+                        {
+                            <h2>Errors</h2>
+                            <ul class="text-danger">
+                                @foreach (var error in errors)
+                                {
+                                    <li>@error</li>
+                                }
+                            </ul>
+                        }
+
+                        @if (uploadedFiles.Count > 0)
+                        {
+
+                            @if (!string.IsNullOrEmpty(newFileName))
+                            {
+                                Service.DataSource.Image = $"/images/{newFileName}";
+                            }
+                        }
+                    </Template>
+                </DxGridLayoutItem>
+
+                <DevTextEdit Caption="@L["Name"]"
+                             ColumnIndex="2"
+                             IsFocus="true"
+                             NullText="@L["EnterName"]"
+                             RowIndex="2"
+                             @bind-Value="@Service.DataSource.Ad">
+                </DevTextEdit>
+                <DevTextEdit Caption="@L["Surname"]"
+                             ColumnIndex="2"
+                             NullText="@L["EnterSurname"]"
+                             RowIndex="3"
+                             @bind-Value="@Service.DataSource.Soyad">
+                </DevTextEdit>
+
+                <DevTextEdit Caption="@L["Image"]"
+                             ColumnIndex="6"
+                             ReadOnly="true"
+                             RowIndex="6"
+                             Visible="false"
+                             @bind-Value="@Service.DataSource.Image">
+                </DevTextEdit>
+                <DevComboBoxEnumEdit Caption="@L["Gender"]"
+                                     ColumnIndex="2"
+                                     DataSource="@(FillEnumToComboBox<Cinsiyet>(L))"
+                                     RowIndex="4"
+                                     SelectedItemChanged="Service.CinsiyetSelectedItemChanged"
+                                     TextFieldName="@nameof(ComboBoxEnumItem<Cinsiyet>.DisplayName)"
+                                     TItem="Cinsiyet"
+                                     @bind-Value="@Service.DataSource.Cinsiyet"
+                                     ValueFieldName="@nameof(ComboBoxEnumItem<Cinsiyet>.Value)">
+                </DevComboBoxEnumEdit>
+                <DevComboBoxEnumEdit Caption="@L["BloodGroup"]"
+                                     ColumnIndex="2"
+                                     DataSource="@(FillEnumToComboBox<KanGrubu>(L))"
+                                     RowIndex="5"
+                                     SelectedItemChanged="Service.KanGrubuSelectedItemChanged"
+                                     TextFieldName="@nameof(ComboBoxEnumItem<KanGrubu>.DisplayName)"
+                                     TItem="KanGrubu"
+                                     @bind-Value="@Service.DataSource.KanGrubu"
+                                     ValueFieldName="@nameof(ComboBoxEnumItem<KanGrubu>.Value)">
+                </DevComboBoxEnumEdit>
+
+              
+                <DevButtonEdit ButtonClickInvokeFunction="() => {
+                                      OzelKodService.BeforeShowPopupListPage(
+                                      OzelKodTuru.OzelKod1, KartTuru.Ogretmen,
+                                      Service.DataSource.OzelKod1Id); }"
+                               Caption="@L["CustomCode1"]"
+                               ColumnIndex="2"
+                               DeleteButtonKeyDownInvokeFunction="() => { OzelKodService.ButtonEditDeleteKeyDown(Service.DataSource,
+                                                                nameof(Service.DataSource.OzelKod1Adi)); }"
+                               NullText="@L["SelectCard"]"
+                               RowIndex="6"
+                               Service="OzelKodService"
+                               @bind-Value="@Service.DataSource.OzelKod1Adi">
+                </DevButtonEdit>
+                <DevButtonEdit ButtonClickInvokeFunction="() => {
+                                                                          OzelKodService.BeforeShowPopupListPage(
+                                                                                                                                                    OzelKodTuru.OzelKod2, KartTuru.Ogretmen,
+                                                                          Service.DataSource.OzelKod2Id); }"
+                               Caption="@L["CustomCode2"]"
+                               ColumnIndex="2"
+                               DeleteButtonKeyDownInvokeFunction="() => { OzelKodService.ButtonEditDeleteKeyDown(Service.DataSource,
+                                                              nameof(Service.DataSource.OzelKod2Adi)); }"
+                               NullText="@L["SelectCard"]"
+                               RowIndex="7"
+                               Service="OzelKodService"
+                               @bind-Value="@Service.DataSource.OzelKod2Adi">
+                </DevButtonEdit>
+                <DevMemoEdit Caption="@L["Description"]"
+                             ColumnIndex="2"
+                             ColumnSpan="5"
+                             NullText="@L["EnterDescription"]"
+                             RowIndex="8"
+                             @bind-Value="@Service.DataSource.Aciklama">
+                </DevMemoEdit>
+            </GridLayoutItems>
+        </DevGridLayout>
+    </EditPageContent>
+</DevPopupEditPageLayout>
+
+@if (OzelKodService.IsPopupListPage)
+{
+    <DevPopupListPageLayout DataGridService="OzelKodService"
+                        CancelButtonText="@L["Cancel"]"
+                        Caption="@L["CustomCodeCards"]"
+                        Closed="OzelKodService.HideListPage"
+                        SelectButtonInvokeFunction="(()=>{
+                                  OzelKodService.SelectEntity(Service.DataSource); })"
+                        SelectButtonText="@L["Select"]"
+                        Visible="true"
+                        Width="1000px">
+        <ListPageContent>
+            <OzelKodListPage/>
+        </ListPageContent>
+    </DevPopupListPageLayout>
+}
+@code{
+    [Parameter] public DateTime DateTime { get; set; } = DateTime.Now;
+    [Parameter] public EventCallback NewButtonClick { get; set; }
+    private long maxFileSize = 1024 * 1024 * 16; // 16MB
+    private int maxAllowedFiles = 3;
+    private List<string> errors = new();
+    private List<string> uploadedFiles = new(); // Yeni isimleri saklamak için
+    public string newFileName = "";
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        errors.Clear();
+        uploadedFiles.Clear();
+
+        if (e.FileCount > maxAllowedFiles)
+        {
+            errors.Add($"Error: Attempting to upload {e.FileCount} files, but only {maxAllowedFiles} files are allowed");
+            return;
+        }
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            try
+            {
+                string extension = Path.GetExtension(file.Name);
+                string baseName = Path.GetFileNameWithoutExtension(file.Name);
+
+                // Dosya adı ve uzantı kombinasyonu
+                newFileName = $"{Service.DataSource.Ad}{extension}";
+
+                string path = Path.Combine(
+                    "wwwroot", // wwwroot klasörüne kaydetmek için
+                    "images",
+                    newFileName);
+
+                // images klasörü yoksa oluştur
+                Directory.CreateDirectory(Path.Combine("wwwroot", "images"));
+
+                // Eğer aynı dosya adı zaten mevcutsa, sonuna sayı ekle
+                int counter = 1;
+                while (File.Exists(path))
+                {
+                    newFileName = $"{baseName}{counter}{extension}";
+                    path = Path.Combine("wwwroot", "images", newFileName);
+                    counter++;
+                }
+
+
+                using var image = await SixLabors.ImageSharp.Image.LoadAsync(file.OpenReadStream(maxFileSize));
+                image.Metadata.ExifProfile = null; // Gereksiz meta verileri temizle
+                await SaveOptimizedImage(image, path, extension);
+
+
+                uploadedFiles.Add(newFileName);
+            }
+            catch (Exception ex)
+            {
+                errors.Add($"File: {file.Name} Error: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task SaveOptimizedImage(SixLabors.ImageSharp.Image image, string path, string extension)
+    {
+        if (extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase) || extension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+        {
+            var jpegEncoder = new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder
+            {
+                Quality = 100 // Kaliteyi artır
+            };
+            await image.SaveAsync(path, jpegEncoder);
+        }
+        else if (extension.Equals(".png", StringComparison.OrdinalIgnoreCase))
+        {
+            var pngEncoder = new SixLabors.ImageSharp.Formats.Png.PngEncoder();
+            await image.SaveAsync(path, pngEncoder);
+        }
+        else
+        {
+            // Diğer formatlar için varsayılan kaydetme işlemi
+            await image.SaveAsync(path);
+        }
+    }
+}

@@ -1,6 +1,4 @@
 ﻿
-using OOS.OgrenciOtomasyonSistemi.Okullar;
-
 namespace OOS.OgrenciOtomasyonSistemi.Cofigurations;
 public static class OgrenciOtomasyonSistemiDbContextModelBuilderExtensions
 {
@@ -94,6 +92,64 @@ public static class OgrenciOtomasyonSistemiDbContextModelBuilderExtensions
 
             b.HasOne(x => x.OzelKod2)
                 .WithMany(x => x.OzelKod2Ogrenciler)
+                .OnDelete(DeleteBehavior.NoAction);
+        });
+    }
+    public static void ConfigureOgretmen(this ModelBuilder builder)
+    {
+        builder.Entity<Ogretmen>(b =>
+        {
+            b.ToTable(OgrenciOtomasyonSistemiConsts.DbTablePrefix + "Ogretmenler", OgrenciOtomasyonSistemiConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            //properties
+            b.Property(x => x.Kod)
+                .IsRequired()
+               .HasColumnType("varchar")
+               .HasMaxLength(EntityConsts.MaxKodLength);
+
+            b.Property(x => x.Ad)
+                .IsRequired()
+                .HasColumnType("varchar")
+                .HasMaxLength(EntityConsts.MaxAdLength);
+
+            b.Property(x => x.Soyad)
+                .HasColumnType("varchar")
+                .HasMaxLength(EntityConsts.MaxAdLength);
+          
+            b.Property(x => x.Image)
+             .HasColumnType("varchar")
+             .HasMaxLength(EntityConsts.MaxAdLength);           
+           
+            b.Property(x => x.Cinsiyet)
+             .HasColumnType("smallint");
+
+            b.Property(x => x.KanGrubu)
+              .HasColumnType("smallint");
+
+            b.Property(x => x.OzelKod1Id)
+               .HasColumnType("uuid");
+
+            b.Property(x => x.OzelKod2Id)
+                .HasColumnType("uuid");
+
+            b.Property(x => x.Aciklama)
+                .HasColumnType("varchar")
+                .HasMaxLength(EntityConsts.MaxAciklamaLength);
+            
+            b.Property(x => x.Durum)
+                .HasColumnType("boolean");
+
+            //indexs
+            b.HasIndex(x => x.Kod);
+
+            //relations    
+            b.HasOne(x => x.OzelKod1)
+           .WithMany(x => x.OzelKod1Ogretmenler)
+           .OnDelete(DeleteBehavior.NoAction);
+
+            b.HasOne(x => x.OzelKod2)
+                .WithMany(x => x.OzelKod2Ogretmenler)
                 .OnDelete(DeleteBehavior.NoAction);
         });
     }

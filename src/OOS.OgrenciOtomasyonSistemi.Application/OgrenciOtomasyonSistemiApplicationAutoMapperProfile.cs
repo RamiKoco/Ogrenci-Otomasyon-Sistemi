@@ -1,4 +1,5 @@
 ﻿
+using OOS.OgrenciOtomasyonSistemi.Ogretmenler;
 using OOS.OgrenciOtomasyonSistemi.Okullar;
 
 namespace OOS.OgrenciOtomasyonSistemi;
@@ -19,6 +20,20 @@ public class OgrenciOtomasyonSistemiApplicationAutoMapperProfile : Profile
         CreateMap<UpdateOgrenciDto, Ogrenci>();
         CreateMap<SelectOgrenciDto, CreateOgrenciDto>();
         CreateMap<SelectOgrenciDto, UpdateOgrenciDto>();
+
+        //ogretmen
+        CreateMap<Ogretmen, SelectOgretmenDto>()
+             .ForMember(x => x.OzelKod1Adi, y => y.MapFrom(z => z.OzelKod1.Ad))
+             .ForMember(x => x.OzelKod2Adi, y => y.MapFrom(z => z.OzelKod2.Ad));
+
+        CreateMap<Ogretmen, ListOgretmenDto>()
+             .ForMember(x => x.OzelKod1Adi, y => y.MapFrom(z => z.OzelKod1.Ad))
+             .ForMember(x => x.OzelKod2Adi, y => y.MapFrom(z => z.OzelKod2.Ad));
+
+        CreateMap<CreateOgretmenDto, Ogretmen>();
+        CreateMap<UpdateOgretmenDto, Ogretmen>();
+        CreateMap<SelectOgretmenDto, CreateOgretmenDto>();
+        CreateMap<SelectOgretmenDto, UpdateOgretmenDto>();
 
         //okul
         CreateMap<Okul, SelectOkulDto>()

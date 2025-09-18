@@ -34,6 +34,13 @@
                                                 NavigateUrl="studentcards"
                                                 IconCssClass="fa fa-clone" />
                                 }
+                                @if (_ogretmen)
+                                {
+                                    <DxMenuItem CssClass="@CssClass"
+                                        Text="@L["TeacherCards"]"
+                                        NavigateUrl="teachercards"
+                                                IconCssClass="fa fa-clone" />
+                                }
                                 @if (_okul)
                                 {
                                     <DxMenuItem CssClass="@CssClass"
@@ -163,11 +170,12 @@
         AppService.HasChanged = StateHasChanged;
     }
 
-    bool _okul, _ogrenci, _sube, _donem, _parametre, _tenant, _role, _user, _ayar;
+    bool _okul, _ogretmen, _ogrenci, _sube, _donem, _parametre, _tenant, _role, _user, _ayar;
 
     protected override async Task OnParametersSetAsync()
     {
         _ogrenci = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Ogrenci.Default);       
+        _ogretmen = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Ogretmen.Default);
         _okul = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Okul.Default);
 
         // _sube = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Sube.Default);

@@ -6,15 +6,15 @@
 <DevPopupEditPageLayout CancelButtonText="@L["Cancel"]"
                         EditPageService="Service"
                         Caption="@L["SchoolCard"]"
-                        Height="340px"
+                        Height="300px"
                         ListPageService="Service"
                         OnSubmit="OnSubmit"
                         SubmitButtonText="@L["Save"]"
                         Width="720px">
     <EditPageContent>
         <DevGridLayout ColumnCount="7"
-                       ColumnWidths="@ColumnWidths("70","2","190","50","80","3","215")"
-                       RowCount="6">
+                       ColumnWidths="@ColumnWidths("70","2","210","30","80","3","215")"
+                       RowCount="4">
             <GridLayoutItems>
                 <DevTextEdit Caption="@L["Code"]"
                              ColumnIndex="2"
@@ -71,8 +71,7 @@
                              ColumnIndex="2"
                              ColumnSpan="5"
                              NullText="@L["EnterDescription"]"
-                             RowIndex="5"
-                             RowSpan="2"
+                             RowIndex="3"
                              @bind-Value="@Service.DataSource.Aciklama">
                 </DevMemoEdit>
             </GridLayoutItems>
