@@ -1,24 +1,21 @@
-1️⃣ Migration İşlemleri
-Projeyi ilk kez ayağa kaldırmadan önce veritabanını oluşturmak için Entity Framework Core migration komutlarını çalıştırmanız gerekir.
+1️⃣ **Migration İşlemleri**
 
+Projeyi ilk kez ayağa kaldırmadan önce veritabanını oluşturmak için Entity Framework Core migration komutlarını çalıştırmanız gerekir.
 a) Migration ekleme
 Add-Migration InitialCreate
-
 b) Veritabanını güncelleme
 Update-Database
-
 Bu işlemler sonucunda gerekli tablolar otomatik olarak oluşturulacaktır.
 
-2️⃣ Varsayılan Kullanıcılar
+2️⃣ **Varsayılan Kullanıcılar**
 
 Kurulum sonrası aşağıdaki kullanıcılar sistemde hazır gelir:
-
 Kullanıcı Rolü	Kullanıcı Adı	Şifre
 👨‍💼 Admin	Admin	Admin.123
 🎓 Öğrenci	Ogrenci	Ogrenci.123
 👩‍🏫 Öğretmen	Ogretmen	Ogretmen.123
 
-3️⃣ Kullanıcı Rolleri
+3️⃣ **Kullanıcı Rolleri**
 
 Admin
 Kullanıcı yönetimi (ekleme, silme, yetkilendirme)
