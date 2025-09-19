@@ -1,4 +1,5 @@
-﻿using Volo.Abp.OpenIddict.EntityFrameworkCore;
+﻿using OOS.OgrenciOtomasyonSistemi.Donemler;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
 
 namespace OOS.OgrenciOtomasyonSistemi.EntityFrameworkCore;
 
@@ -40,6 +41,11 @@ public class OgrenciOtomasyonSistemiDbContext :
 
     #endregion
 
+    public DbSet<Donem> Donemler { get; set; }
+    public DbSet<Ogrenci> Ogrenciler { get; set; }
+    public DbSet<Ogretmen> Ogretmenler { get; set; }
+    public DbSet<Okul> Okullar { get; set; }
+
     public OgrenciOtomasyonSistemiDbContext(DbContextOptions<OgrenciOtomasyonSistemiDbContext> options)
         : base(options)
     {
@@ -62,6 +68,7 @@ public class OgrenciOtomasyonSistemiDbContext :
         builder.ConfigureTenantManagement();
 
         /* Configure your own tables/entities inside here */
+        builder.ConfigureDonem();
         builder.ConfigureOgrenci();
         builder.ConfigureOkul();
         builder.ConfigureOgretmen();

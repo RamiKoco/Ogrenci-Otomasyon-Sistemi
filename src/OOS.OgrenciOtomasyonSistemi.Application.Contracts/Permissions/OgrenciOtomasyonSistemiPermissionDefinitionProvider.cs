@@ -12,6 +12,17 @@ public class OgrenciOtomasyonSistemiPermissionDefinitionProvider : PermissionDef
         var ayar = mainGroup.AddPermission(OgrenciOtomasyonSistemiPermissions.Ayar.Default,
             L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Ayar)}"));
 
+        //donem
+        var donem = mainGroup.AddPermission(OgrenciOtomasyonSistemiPermissions.Donem.Default,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Donem)}"));
+
+        donem.AddChild(OgrenciOtomasyonSistemiPermissions.Donem.Create,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Donem)}{OgrenciOtomasyonSistemiPermissions.CreateConst}"));
+        donem.AddChild(OgrenciOtomasyonSistemiPermissions.Donem.Update,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Donem)}{OgrenciOtomasyonSistemiPermissions.UpdateConst}"));
+        donem.AddChild(OgrenciOtomasyonSistemiPermissions.Donem.Delete,
+            L($"{localizePrefix}:{nameof(OgrenciOtomasyonSistemiPermissions.Donem)}{OgrenciOtomasyonSistemiPermissions.DeleteConst}"));
+
 
         //ogrenci
         var ogrenci = mainGroup.AddPermission(OgrenciOtomasyonSistemiPermissions.Ogrenci.Default,

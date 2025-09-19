@@ -16,6 +16,13 @@ public static class OgrenciOtomasyonSistemiPermissions
         public const string Default = $"{GroupName}.{nameof(Ayar)}";
     }
 
+    public static class Donem
+    {
+        public const string Default = $"{GroupName}.{nameof(Donem)}";
+        public const string Create = Default + CreateConst;
+        public const string Update = Default + UpdateConst;
+        public const string Delete = Default + DeleteConst;
+    }
     public static class Ogrenci
     {
         public const string Default = $"{GroupName}.{nameof(Ogrenci)}";

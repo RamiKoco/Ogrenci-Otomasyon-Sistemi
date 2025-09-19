@@ -77,4 +77,5 @@ global using OOS.OgrenciOtomasyonSistemi.MultiTenancy;
 global using OOS.OgrenciOtomasyonSistemi.Services;
 global using OOS.OgrenciOtomasyonSistemi.OzelKodlar;
 global using OOS.OgrenciOtomasyonSistemi.Ogretmenler;
+global using OOS.OgrenciOtomasyonSistemi.Donemler;
 

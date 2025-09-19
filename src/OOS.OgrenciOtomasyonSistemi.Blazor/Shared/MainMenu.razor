@@ -24,9 +24,8 @@
                         <DxMenuItem CssClass="@CssClass"
                         Text="@L["Cards"]"
                         IconCssClass="fa fa-clone">
-                            <Items>
-                              
-                              
+                            <Items>                             
+
                                 @if (_ogrenci)
                                 {
                                     <DxMenuItem CssClass="@CssClass"
@@ -179,7 +178,7 @@
         _okul = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Okul.Default);
 
         // _sube = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Sube.Default);
-        // _donem = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Donem.Default);
+        _donem = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Donem.Default);
 
         _parametre = true;
 

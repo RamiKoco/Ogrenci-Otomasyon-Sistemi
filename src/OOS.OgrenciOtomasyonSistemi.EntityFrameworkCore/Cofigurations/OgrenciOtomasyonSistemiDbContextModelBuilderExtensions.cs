@@ -1,7 +1,41 @@
 ﻿
+using OOS.OgrenciOtomasyonSistemi.Donemler;
+
 namespace OOS.OgrenciOtomasyonSistemi.Cofigurations;
 public static class OgrenciOtomasyonSistemiDbContextModelBuilderExtensions
 {
+    public static void ConfigureDonem(this ModelBuilder builder)
+    {
+        builder.Entity<Donem>(b =>
+        {
+            b.ToTable(OgrenciOtomasyonSistemiConsts.DbTablePrefix + "Donemler", OgrenciOtomasyonSistemiConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            //properties
+            b.Property(x => x.Kod)
+                .IsRequired()
+               .HasColumnType("varchar")
+               .HasMaxLength(EntityConsts.MaxKodLength);
+
+            b.Property(x => x.Ad)
+                .IsRequired()
+                .HasColumnType("varchar")
+                .HasMaxLength(EntityConsts.MaxAdLength);        
+
+            b.Property(x => x.Aciklama)
+                .HasColumnType("varchar")
+                .HasMaxLength(EntityConsts.MaxAciklamaLength);
+            
+            b.Property(x => x.Durum)
+                .HasColumnType("boolean");
+
+            //indexs
+            b.HasIndex(x => x.Kod);
+
+            //relations    
+          
+        });
+    }
     public static void ConfigureOgrenci(this ModelBuilder builder)
     {
         builder.Entity<Ogrenci>(b =>

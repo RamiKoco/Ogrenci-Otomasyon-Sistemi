@@ -1,4 +1,5 @@
 ﻿
+using OOS.OgrenciOtomasyonSistemi.Donemler;
 using OOS.OgrenciOtomasyonSistemi.Ogretmenler;
 using OOS.OgrenciOtomasyonSistemi.Okullar;
 
@@ -7,6 +8,14 @@ public class OgrenciOtomasyonSistemiApplicationAutoMapperProfile : Profile
 {
     public OgrenciOtomasyonSistemiApplicationAutoMapperProfile()
     {
+        //donem
+        CreateMap<Donem, SelectDonemDto>();
+        CreateMap<Donem, ListDonemDto>();
+        CreateMap<CreateDonemDto, Donem>();
+        CreateMap<UpdateDonemDto, Donem>();
+        CreateMap<SelectDonemDto, CreateDonemDto>();
+        CreateMap<SelectDonemDto, UpdateDonemDto>();
+
         //ogrenci
         CreateMap<Ogrenci, SelectOgrenciDto>()
              .ForMember(x => x.OzelKod1Adi, y => y.MapFrom(z => z.OzelKod1.Ad))
