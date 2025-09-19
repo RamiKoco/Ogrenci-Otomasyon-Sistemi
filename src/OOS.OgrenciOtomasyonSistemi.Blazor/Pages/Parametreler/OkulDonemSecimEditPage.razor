@@ -12,7 +12,7 @@
                     ActionButtonText="@L["Continue"]"
                     ActionButtonVisible="true"
                     CancelButtonVisible="false"
-                    Caption="@L["BranchAndPeriodSelect"]"
+                    Caption="@L["SchoolAndPeriodSelect"]"
                     Closing="ClosingAsync"
                     CloseOnEscape="false"
                     Height="190px"
@@ -27,7 +27,7 @@
                 <DevButtonEdit ButtonClickInvokeFunction="() =>
                                       OkulService.BeforeShowPopupListPage(
                                           AppService.FirmaParametre.OkulId)"
-                               Caption="@L["Branch"]"
+                               Caption="@L["School"]"
                                ColumnIndex="2"
                                IsFocus="true"
                                NullText="@L["SelectCard"]"
@@ -55,7 +55,7 @@
 {
     <DevPopupListPageLayout DataGridService="OkulService"
                         CancelButtonText="@L["Cancel"]"
-                        Caption="@L["BranchCards"]"
+                        Caption="@L["SchoolCards"]"
                         Closed="OkulService.HideListPage"
                         SelectButtonInvokeFunction="(()=>{
                                   OkulService.SelectEntity(AppService.FirmaParametre); })"
