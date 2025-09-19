@@ -36,6 +36,42 @@ public static class OgrenciOtomasyonSistemiDbContextModelBuilderExtensions
           
         });
     }
+    public static void ConfigureFirmaParametre(this ModelBuilder builder)
+    {
+        builder.Entity<FirmaParametre>(b =>
+        {
+            b.ToTable(OgrenciOtomasyonSistemiConsts.DbTablePrefix + "FirmaParametreler", OgrenciOtomasyonSistemiConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            //properties
+            b.Property(x => x.UserId)
+                .IsRequired()
+                .HasColumnType("uuid");
+
+            b.Property(x => x.OkulId)
+                .IsRequired()
+                .HasColumnType("uuid");           
+
+            b.Property(x => x.DonemId)
+                .IsRequired()
+                .HasColumnType("uuid");          
+
+            //indexs
+
+            //relations
+            b.HasOne(x => x.User)
+                .WithOne()
+                .HasForeignKey<FirmaParametre>(x => x.UserId);
+
+            b.HasOne(x => x.Okul)
+                .WithMany(x => x.FirmaParemetreler)
+                .OnDelete(DeleteBehavior.NoAction);          
+
+            b.HasOne(x => x.Donem)
+                .WithMany(x => x.FirmaParametreler)
+                .OnDelete(DeleteBehavior.NoAction);         
+        });
+    }
     public static void ConfigureOgrenci(this ModelBuilder builder)
     {
         builder.Entity<Ogrenci>(b =>

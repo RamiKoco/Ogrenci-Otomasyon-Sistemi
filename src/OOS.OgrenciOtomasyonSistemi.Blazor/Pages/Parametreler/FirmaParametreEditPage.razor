@@ -1,0 +1,124 @@
+﻿
+@inherits BaseUpdatePage<SelectFirmaParametreDto, SelectFirmaParametreDto,
+       FirmaParametreListParameterDto, CreateFirmaParametreDto, UpdateFirmaParametreDto>
+@inject OkulService OkulService
+@inject DonemService DonemService
+@inject AppService AppService
+@inject FirmaParametreAppService CrudService
+@inject NavigationManager NavigationManager
+
+<DevPopupPageLayout ActionButtonEnabled="true"
+                    ActionButtonIconCssClass="@SaveCssClass"
+                    ActionButtonInvokeFunction="Save"
+                    ActionButtonText="@L["Save"]"
+                    ActionButtonVisible="true"
+                    CancelButtonText="@L["Cancel"]"
+                    Caption="@L["FirmParameters"]"
+                    Closing="Closing"
+                    CancelButtonIconCssClass="@CloseCssClass"
+                    Height="250px"
+                    Visible="true"
+                    Width="435px">
+    <PageContent>
+        <DevGridLayout ColumnCount="3"
+                       ColumnWidths="@ColumnWidths("100","3","300")"
+                       RowCount="4">
+            <GridLayoutItems> 
+
+                <DevButtonEdit ButtonClickInvokeFunction="() =>
+                                      OkulService.BeforeShowPopupListPage(
+                                          AppService.FirmaParametre.OkulId)"
+                               Caption="@L["Branch"]"
+                               ColumnIndex="2"
+                               IsFocus="true"
+                               NullText="@L["SelectCard"]"
+                               RowIndex="0"
+                               Service="OkulService"
+                               @bind-Value="AppService.FirmaParametre.OkulAdi">
+                </DevButtonEdit>
+                <DevButtonEdit ButtonClickInvokeFunction="() =>
+                                      DonemService.BeforeShowPopupListPage(
+                                           AppService.FirmaParametre.DonemId)"
+                               Caption="@L["Period"]"
+                               ColumnIndex="2"
+                               NullText="@L["SelectCard"]"
+                               RowIndex="1"
+                               Service="DonemService"
+                               @bind-Value="AppService.FirmaParametre.DonemAdi">
+                </DevButtonEdit>
+       
+            </GridLayoutItems>
+        </DevGridLayout>
+    </PageContent>
+</DevPopupPageLayout>
+
+@if (OkulService.IsPopupListPage)
+{
+    <DevPopupListPageLayout DataGridService="OkulService"
+                            CancelButtonText="@L["Cancel"]"
+                            Caption="@L["BranchCards"]"
+                            Closed="OkulService.HideListPage"
+                            SelectButtonInvokeFunction="(()=>{
+                                  OkulService.SelectEntity(AppService.FirmaParametre); })"
+                            SelectButtonText="@L["Select"]"
+                            Visible="true"
+                            Width="1000px">
+        <ListPageContent>
+            <OkulListPage />
+        </ListPageContent>
+    </DevPopupListPageLayout>
+}
+
+@if (DonemService.IsPopupListPage)
+{
+    <DevPopupListPageLayout DataGridService="DonemService"
+                            CancelButtonText="@L["Cancel"]"
+                            Caption="@L["PeriodCards"]"
+                            Closed="DonemService.HideListPage"
+                            SelectButtonInvokeFunction="(()=>{
+                                  DonemService.SelectEntity(AppService.FirmaParametre); })"
+                            SelectButtonText="@L["Select"]"
+                            Visible="true"
+                            Width="1000px">
+        <ListPageContent>
+            <DonemListPage />
+        </ListPageContent>
+    </DevPopupListPageLayout>
+}
+
+@code {
+    [Parameter] public string SaveCssClass { get; set; } = "fa fa-save iconCssSave";
+    [Parameter] public string CloseCssClass { get; set; } = "fa fa-close iconCssClose";
+
+    private async Task Save()
+    {
+        await UpdateAsync(CurrentUser.Id.Value, new UpdateFirmaParametreDto
+            {
+                OkulId = AppService.FirmaParametre.OkulId,                
+                DonemId = AppService.FirmaParametre.DonemId
+            });
+    }
+
+    private void Closing(PopupClosingEventArgs arg)
+    {
+        AppService.ShowFirmaParametreEditPage = false;
+        AppService.HasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        BaseCrudService = CrudService;
+    }
+}
+
+<style>
+    .iconCssClose {
+        font-size: 17px;
+        color: red;
+    }
+
+    .iconCssSave {
+        font-size: 16px;
+        color: green;
+    }
+</style>

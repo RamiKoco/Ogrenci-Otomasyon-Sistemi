@@ -2,6 +2,7 @@
 using OOS.OgrenciOtomasyonSistemi.Donemler;
 using OOS.OgrenciOtomasyonSistemi.Ogretmenler;
 using OOS.OgrenciOtomasyonSistemi.Okullar;
+using OOS.OgrenciOtomasyonSistemi.Parametreler;
 
 namespace OOS.OgrenciOtomasyonSistemi;
 public class OgrenciOtomasyonSistemiApplicationAutoMapperProfile : Profile
@@ -15,6 +16,14 @@ public class OgrenciOtomasyonSistemiApplicationAutoMapperProfile : Profile
         CreateMap<UpdateDonemDto, Donem>();
         CreateMap<SelectDonemDto, CreateDonemDto>();
         CreateMap<SelectDonemDto, UpdateDonemDto>();
+
+        //Firma Parametre
+        CreateMap<FirmaParametre, SelectFirmaParametreDto>()
+            .ForMember(x => x.OkulAdi, y => y.MapFrom(z => z.Okul.Ad))
+            .ForMember(x => x.DonemAdi, y => y.MapFrom(z => z.Donem.Ad));
+
+        CreateMap<CreateFirmaParametreDto, FirmaParametre>();
+        CreateMap<UpdateFirmaParametreDto, FirmaParametre>();
 
         //ogrenci
         CreateMap<Ogrenci, SelectOgrenciDto>()

@@ -60,6 +60,7 @@ public class OkulAppService : OgrenciOtomasyonSistemiAppService, IOkulAppService
     [Authorize(OgrenciOtomasyonSistemiPermissions.Okul.Delete)]
     public virtual async Task DeleteAsync(Guid id)
     {
+        await _okulManager.CheckDeleteAsync(id);
         await _okulRepository.DeleteAsync(id);
     }
     public virtual async Task<string> GetCodeAsync(CodeParameterDto input)

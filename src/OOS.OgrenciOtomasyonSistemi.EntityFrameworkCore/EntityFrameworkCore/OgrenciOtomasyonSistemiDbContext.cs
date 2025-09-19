@@ -42,6 +42,7 @@ public class OgrenciOtomasyonSistemiDbContext :
     #endregion
 
     public DbSet<Donem> Donemler { get; set; }
+    public DbSet<FirmaParametre> FirmaParametreler { get; set; }
     public DbSet<Ogrenci> Ogrenciler { get; set; }
     public DbSet<Ogretmen> Ogretmenler { get; set; }
     public DbSet<Okul> Okullar { get; set; }
@@ -69,6 +70,7 @@ public class OgrenciOtomasyonSistemiDbContext :
 
         /* Configure your own tables/entities inside here */
         builder.ConfigureDonem();
+        builder.ConfigureFirmaParametre();
         builder.ConfigureOgrenci();
         builder.ConfigureOkul();
         builder.ConfigureOgretmen();

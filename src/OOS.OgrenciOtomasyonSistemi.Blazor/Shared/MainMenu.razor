@@ -1,11 +1,9 @@
-﻿
+﻿@using OOS.OgrenciOtomasyonSistemi.Blazor.Pages.Parametreler
+
 @inject IStringLocalizer<OgrenciOtomasyonSistemiResource> L
 @inject AppService AppService
 @inject NavigationManager NavigationManager
 @inject IAuthorizationService AuthorizationService
-@* 
-<div class="card">
-   <div class="accordion-body"> *@
 
         <DxMenu CssClass="@ogrenciotomasyonsistemi"
                 Title="@($" {L["OgrenciOtomasyonSistemi"]}")"
@@ -40,13 +38,7 @@
                                         NavigateUrl="teachercards"
                                                 IconCssClass="fa fa-clone" />
                                 }
-                                @if (_okul)
-                                {
-                                    <DxMenuItem CssClass="@CssClass"
-                                        Text="@L["SchoolCards"]"
-                                        NavigateUrl="schoolcards"
-                                        IconCssClass="fa fa-clone" />
-                                }
+                               
                              
 
                             </Items>
@@ -61,17 +53,8 @@
                                     <DxMenuItem CssClass="@CssClass"
                                                 Text="@L["FirmParameters"]"
                                                 Click="()=> AppService.ShowFirmaParametreEditPage=true"
-                                                IconCssClass="fas fa-clipboard-check" />
-
-
-
-                                    @if (_sube)
-                                    {
-                                        <DxMenuItem CssClass="@CssClass"
-                                                    Text="@L["BranchCards"]"
-                                                    NavigateUrl="branchcards"
-                                                    IconCssClass="fa fa-clone" />
-                                    }
+                                                IconCssClass="fas fa-clipboard-check" />                         
+                      
 
                                     @if (_donem)
                                     {
@@ -79,8 +62,14 @@
                                                     Text="@L["PeriodCards"]"
                                                     NavigateUrl="periodcards"
                                                     IconCssClass="fa fa-clone" />
-                                    }                                  
-                                 
+                                    }
+                                    @if (_okul)
+                                    {
+                                        <DxMenuItem CssClass="@CssClass"
+                                                    Text="@L["SchoolCards"]"
+                                                    NavigateUrl="schoolcards"
+                                                    IconCssClass="fa fa-clone" />
+                                    }
                                 </Items>
                             </DxMenuItem>
                         }
@@ -142,7 +131,20 @@
                                 </Items>
                             </DxMenuItem>
                         }
+                <DxMenuItem CssClass="@CssClass"
+                            Click="() => AppService.ShowOkulDonemEditPage = true"
+                            Position="ItemPosition.End"
+                            BeginGroup="true">
+                                <TextTemplate>
+                                    <i class="far fa-building pe-2" />
+                                    @AppService.FirmaParametre.OkulAdi
 
+                                    <i class="ps-3 fas fa-minus pe-3" />
+
+                                    <i class="fas fa-calendar-alt pe-2" />
+                                    @AppService.FirmaParametre.DonemAdi
+                                </TextTemplate>
+                </DxMenuItem>
                     </Authorized>
                 </AuthorizeView>
 
@@ -154,6 +156,16 @@
     @* </div> 
 </div>
 *@
+@if (AppService.ShowFirmaParametreEditPage)
+{
+    <FirmaParametreEditPage />
+}
+
+@if (AppService.ShowOkulDonemEditPage)
+{
+    <OkulDonemSecimEditPage />
+}
+
 @code {
     [Parameter] public string CssClass { get; set; } = "cssClass";
     [Parameter] public string ogrenciotomasyonsistemi { get; set; } = "ogrenciotomasyonsistemi";
@@ -175,9 +187,8 @@
     {
         _ogrenci = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Ogrenci.Default);       
         _ogretmen = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Ogretmen.Default);
-        _okul = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Okul.Default);
 
-        // _sube = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Sube.Default);
+        _okul = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Okul.Default);
         _donem = await AuthorizationService.IsGrantedAsync(OgrenciOtomasyonSistemiPermissions.Donem.Default);
 
         _parametre = true;

@@ -32,4 +32,10 @@ public class OkulManager : DomainService
             KartTuru.Okul, entity.OzelKod2Id != ozelKod2Id);
     
     }
+
+    public async Task CheckDeleteAsync(Guid id)
+    {
+        await _okulRepository.RelationalEntityAnyAsync(
+            x => x.FirmaParemetreler.Any(y => y.OkulId == id));
+    }
 }

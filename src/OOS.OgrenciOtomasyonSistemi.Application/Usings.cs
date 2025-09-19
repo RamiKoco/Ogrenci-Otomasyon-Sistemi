@@ -3,7 +3,7 @@ global using System.Collections.Generic;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Authorization;
 global using AutoMapper;
-
+global using Microsoft.AspNetCore.Mvc;
 global using Volo.Abp.Account;
 global using Volo.Abp.Application.Dtos;
 global using Volo.Abp.Application.Services;
@@ -15,12 +15,8 @@ global using Volo.Abp.Modularity;
 global using Volo.Abp.PermissionManagement;
 global using Volo.Abp.SettingManagement;
 global using Volo.Abp.TenantManagement;
-
 global using OOS.OgrenciOtomasyonSistemi.Permissions;
 global using OOS.OgrenciOtomasyonSistemi.CommonDtos;
 global using OOS.OgrenciOtomasyonSistemi.OzelKodlar;
-//global using OOS.OgrenciOtomasyonSistemi.Images;
 global using OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 global using OOS.OgrenciOtomasyonSistemi.Localization;
-//global using OOS.OgrenciOtomasyonSistemi.Parametreler;
-//global using OOS.OgrenciOtomasyonSistemi.Subeler;

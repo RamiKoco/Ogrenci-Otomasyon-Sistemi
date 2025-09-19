@@ -21,7 +21,7 @@ global using OOS.OgrenciOtomasyonSistemi.EntityFrameworkCore;
 global using OOS.OgrenciOtomasyonSistemi.Commons;
 global using OOS.OgrenciOtomasyonSistemi.OzelKodlar;
 global using OOS.OgrenciOtomasyonSistemi.Consts;
-//global using OOS.OgrenciOtomasyonSistemi.Parametreler;
+global using OOS.OgrenciOtomasyonSistemi.Parametreler;
 global using OOS.OgrenciOtomasyonSistemi.Ogrenciler;
 //global using OOS.OgrenciOtomasyonSistemi.Images;
 //global using OOS.OgrenciOtomasyonSistemi.Subeler;
