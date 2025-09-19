@@ -33,6 +33,6 @@ Ders tanımlama
 **Kullanılacak Teknolojiler**
 • Backend: .NET 9
 • ORM: Entity Framework Core
-• Frontend: İstediğiniz frameworkü kullanabilirsiniz  Blazor
+• Frontend: Blazor
 • Veritabanı: PostgreSQL
 • Versiyon Kontrol: GitHub
